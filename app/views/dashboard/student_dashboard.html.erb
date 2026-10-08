@@ -1,0 +1,47 @@
+<% content_for :title, "Painel · OrientaAI" %>
+<% content_for :section_name, "Painel" %>
+<% stage = [[(@student.progress / 20.0).ceil, 1].max, 5].min %>
+<% open_reviews = ReviewComment.joins(:academic_work).where(academic_works: { student_id: @student.id }, status: "open").count %>
+<% received_reviews = @works.sum { |work| work.review_comments.length } %>
+<section class="student-welcome">
+  <div><span class="eyebrow student-eyebrow"><%= l(Date.current, format: "%A, %d de %B de %Y").upcase %></span><h1>Sua pesquisa, um passo adiante.</h1><p>Olá, <%= @student.name.split.first %>. Você está construindo algo importante. Vamos por partes.</p></div>
+  <%= link_to "＋ Enviar trabalho", academic_works_path, class: "button teal-button" %>
+</section>
+
+<section class="student-metrics">
+  <article class="metric-card"><div class="metric-head"><span>Etapas da pesquisa</span><span class="metric-glyph violet">⌁</span></div><strong><%= stage %> <small>de 5</small></strong><div class="metric-foot"><span class="metric-track"><i style="width:<%= stage * 20 %>%"></i></span>Qualificação em preparação</div></article>
+  <article class="metric-card"><div class="metric-head"><span>Orientações recebidas</span><span class="metric-glyph mint">▧</span></div><strong><%= received_reviews %></strong><div class="metric-foot"><span class="metric-square"></span><%= open_reviews %> aguardando revisão</div></article>
+  <article class="metric-card"><div class="metric-head"><span>Próximo marco</span><span class="metric-glyph amber">◷</span></div><strong><%= l(Date.current.change(day: 28), format: "%d %b").upcase %></strong><div class="metric-foot"><span class="metric-square amber-square"></span>Enviar versão para qualificação</div></article>
+</section>
+
+<div class="student-dashboard-grid">
+  <div class="student-dashboard-main">
+    <section class="student-card research-card">
+      <div class="student-card-heading"><div><span class="eyebrow student-eyebrow">MINHA PESQUISA</span><h2><%= @student.project_title %></h2><p><%= @student.research_area %> · Orientadora: Profa. <%= @orientation&.professor&.name || "a definir" %></p></div><span class="state-badge">Em andamento</span></div>
+      <div class="research-steps">
+        <% [["Projeto", "Concluído"], ["Referencial", "Em revisão"], ["Metodologia", "Em construção"], ["Qualificação", "Próxima etapa"], ["Defesa", "Futura"]].each_with_index do |(label, description), index| %>
+          <% state = index + 1 < stage ? "done" : (index + 1 == stage ? "current" : "upcoming") %>
+          <div class="research-step <%= state %>"><span class="step-node"><%= state == "done" ? "✓" : (index + 1) %></span><div class="step-line"></div><strong><%= label %></strong><small><%= description %></small></div>
+        <% end %>
+      </div>
+      <div class="research-card-bottom"><span><i class="green-dot"></i> Progresso atualizado em <%= l(@student.updated_at.to_date, format: "%d %b") %></span><%= link_to "Ver pesquisa →", academic_works_path, class: "student-text-link" %></div>
+    </section>
+
+    <section class="student-card student-works-card"><div class="student-card-heading"><div><span class="eyebrow student-eyebrow">BIBLIOTECA DA PESQUISA</span><h2>Últimos trabalhos</h2></div><%= link_to "Ver todos →", academic_works_path, class: "student-text-link" %></div>
+      <% @works.first(3).each do |work| %><%= link_to academic_work_path(work), class: "recent-work-row" do %><span class="document-glyph">▤</span><span class="recent-work-main"><strong><%= work.title %></strong><small>Versão <%= work.current_version %> · <%= work.latest_version&.updated_at ? l(work.latest_version.updated_at, format: "%d %b · %H:%M") : "Rascunho" %></small></span><span class="document-status <%= work.status %>"><%= work.status == "submitted" ? "Revisão disponível" : "Rascunho salvo" %></span><span class="row-arrow">›</span><% end %><% end %>
+      <% if @works.empty? %><div class="student-empty">Nenhum documento enviado. <%= link_to "Comece por aqui", academic_works_path %>.</div><% end %>
+    </section>
+
+    <section class="student-card meeting-summary-card"><div class="student-card-heading"><div><span class="eyebrow student-eyebrow">MEMÓRIA DE ORIENTAÇÃO</span><h2>Última conversa</h2></div><%= link_to "Abrir reuniões →", student_meetings_path, class: "student-text-link" %></div>
+      <% if @recent_meetings.any? %><% meeting = @recent_meetings.first %><div class="last-meeting"><span class="meeting-mark">▧</span><div><strong><%= meeting.title %></strong><small><%= l(meeting.held_at, format: "%d %b %Y · %H:%M") %> · Profa. <%= @orientation&.professor&.name || "orientadora" %></small><p><%= meeting.summary %></p></div></div><div class="meeting-next"><span>PRÓXIMOS PASSOS</span><p><%= meeting.next_steps %></p></div><% else %><div class="student-empty">Nenhuma reunião registrada ainda.</div><% end %>
+    </section>
+  </div>
+
+  <aside class="student-dashboard-aside">
+    <section class="today-card"><div class="today-card-head"><span>✳</span><span>ORIENTAÇÃO PARA HOJE</span></div><h2>Seu próximo passo</h2><% if @next_tasks.any? %><% task = @next_tasks.first %><p class="today-task"><%= task.title %></p><small><%= task.due_on ? "Prazo sugerido: #{l(task.due_on, format: "%d %b")}" : "Combine um prazo com sua orientadora" %></small><%= link_to "Ver meus próximos passos →", student_agenda_path, class: "today-link" %><% else %><p class="today-task">Você está em dia com suas tarefas.</p><%= link_to "Abrir agenda →", student_agenda_path, class: "today-link" %><% end %><div class="today-decoration">✳</div></section>
+    <section class="student-card next-tasks-card"><div class="student-card-heading"><div><span class="eyebrow student-eyebrow">ORGANIZAÇÃO</span><h2>Seu próximo passo</h2></div><%= link_to "Agenda →", student_agenda_path, class: "student-text-link" %></div><% @next_tasks.first(3).each do |task| %><div class="mini-task"><span class="task-radio"></span><div><strong><%= task.title %></strong><small><%= task.due_on ? l(task.due_on, format: "%d %b") : "Sem prazo" %></small></div></div><% end %><% if @next_tasks.empty? %><p class="student-empty">Nenhuma tarefa em aberto.</p><% end %></section>
+    <section class="student-card milestone-card"><span class="eyebrow student-eyebrow">PRÓXIMA ORIENTAÇÃO</span><% if @upcoming_meeting %><strong><%= l(@upcoming_meeting, format: "%d %b") %></strong><p>Conversa com Profa. <%= @orientation&.professor&.name || "sua orientadora" %><br><%= l(@upcoming_meeting, format: "%H:%M") %> · Online</p><%= link_to "Preparar pauta →", student_meetings_path, class: "student-text-link" %><% else %><p>Combine a data do próximo encontro com sua orientadora.</p><% end %></section>
+    <section class="student-card recommend-card"><div class="student-card-heading"><div><span class="eyebrow student-eyebrow">OPORTUNIDADES</span><h2>Para considerar</h2></div><%= link_to "Ver todas →", opportunity_recommendations_path, class: "student-text-link" %></div><% @recommendations.first(1).each do |recommendation| %><div class="recommended-event"><span class="event-pill"><%= recommendation.item_type %></span><strong><%= recommendation.title %></strong><small><%= recommendation.organization %></small><%= button_to "Acompanhar oportunidade", opportunity_recommendation_path(recommendation), method: :patch, params: { opportunity_recommendation: { status: "saved" } }, class: "student-outline-button" if recommendation.status == "recommended" %></div><% end %></section>
+    <div class="student-ai-note"><span>✳</span><div><strong>Seu olhar crítico importa.</strong><p>As sugestões da IA são apoio à revisão. Confirme cada ponto nas normas e com sua orientadora.</p></div></div>
+  </aside>
+</div>

@@ -1,0 +1,17 @@
+<%= form_with model: @student, class: "student-form" do |form| %>
+  <% if @student.errors.any? %><div class="form-errors"><%= @student.errors.full_messages.to_sentence %></div><% end %>
+  <section class="form-section"><div class="form-section-title"><span>01</span><div><h2>Sobre o estudante</h2><p>Informações para identificar e acompanhar o orientando.</p></div></div><div class="form-grid">
+    <div class="field"><%= form.label :name, "Nome completo *" %><%= form.text_field :name, placeholder: "Nome do estudante", required: true %></div>
+    <div class="field"><%= form.label :email, "E-mail *" %><%= form.email_field :email, placeholder: "estudante@universidade.br", required: true %></div>
+    <div class="field"><%= form.label :program, "Programa *" %><%= form.select :program, Student::PROGRAMS, {}, required: true %></div>
+    <div class="field"><%= form.label :research_area, "Área de pesquisa" %><%= form.text_field :research_area, placeholder: "Ex.: Engenharia de Software" %></div>
+    <div class="field span-2"><%= form.label :project_title, "Título provisório da pesquisa" %><%= form.text_field :project_title, placeholder: "Título do projeto de dissertação ou tese" %></div>
+  </div></section>
+  <section class="form-section"><div class="form-section-title"><span>02</span><div><h2>Contexto da pesquisa</h2><p>Estes dados ajudam o portal e a futura integração a manter contexto.</p></div></div><div class="form-grid">
+    <div class="field span-2"><%= form.label :research_problem, "Problema de pesquisa" %><%= form.text_area :research_problem, rows: 3, placeholder: "Qual problema ou lacuna a pesquisa investiga?" %></div>
+    <div class="field span-2"><%= form.label :objectives, "Objetivos" %><%= form.text_area :objectives, rows: 3, placeholder: "Objetivo geral e objetivos específicos" %></div>
+    <div class="field span-2"><%= form.label :methodology, "Metodologia" %><%= form.text_area :methodology, rows: 3, placeholder: "Abordagem, métodos e procedimentos previstos" %></div>
+  </div></section>
+  <% if @student.persisted? %><section class="form-section"><div class="form-grid"><div class="field"><%= form.label :progress, "Progresso estimado (%)" %><%= form.number_field :progress, min: 0, max: 100 %></div><div class="field"><%= form.label :active, "Status" %><%= form.select :active, [["Ativo", true], ["Arquivado", false]] %></div></div></section><% end %>
+  <div class="form-actions"><%= link_to "Cancelar", students_path, class: "button secondary" %><%= form.submit(@student.persisted? ? "Salvar alterações" : "Cadastrar estudante", class: "button primary") %></div>
+<% end %>

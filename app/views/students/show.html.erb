@@ -1,0 +1,3 @@
+<% content_for :title, "Estudante · OrientaAI" %>
+<section class="page-heading"><div><span class="eyebrow">ESTUDANTE</span><h1><%= @student.name %></h1><p><%= @student.email %> · <%= @student.program %></p></div><%= link_to "Editar cadastro", edit_student_path(@student), class: "button secondary" %></section>
+<div class="panel detail-card"><p>Este estudante ainda não possui uma orientação vinculada.</p><%= link_to "Voltar aos alunos", students_path, class: "text-link" %></div>

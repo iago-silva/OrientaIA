@@ -1,0 +1,42 @@
+<% content_for :title, "Orientação de #{@orientation.student.name} · OrientaAI" %>
+<section class="profile-heading">
+  <div><%= link_to "← Orientações", orientations_path, class: "back-link" %><div class="profile-title-row"><div class="avatar large"><%= initials(@orientation.student.name) %></div><div><span class="eyebrow"><%= @orientation.student.program.upcase %> · ORIENTAÇÃO</span><h1><%= @orientation.student.name %></h1><p><%= @orientation.student.research_area.presence || "Área de pesquisa a definir" %></p></div></div></div>
+  <div class="profile-actions"><span class="status-pill <%= @orientation.status %>"><i></i><%= formatted_status(@orientation.status) %></span><%= link_to "Editar aluno", edit_student_path(@orientation.student), class: "button secondary" %></div>
+</section>
+<section class="project-banner"><div><span class="eyebrow light">PROJETO DE PESQUISA</span><h2><%= @orientation.student.project_title.presence || @orientation.title %></h2><p><%= @orientation.title %></p></div><div class="project-progress"><span>PROGRESSO ESTIMADO</span><strong><%= @orientation.student.progress %>%</strong><div class="progress-track light-track"><span style="width: <%= @orientation.student.progress %>%"></span></div></div></section>
+
+<div class="orientation-content-grid">
+  <div class="orientation-main-column">
+    <section class="panel detail-card"><div class="panel-heading"><div><span class="eyebrow">CONTEXTO DA PESQUISA</span><h2>O que está sendo investigado</h2></div><%= link_to "Editar", edit_student_path(@orientation.student), class: "text-link" %></div>
+      <div class="research-block"><h3><span>01</span> Problema de pesquisa</h3><p><%= @orientation.student.research_problem.presence || "Ainda não registrado. Edite o cadastro do aluno para incluir o problema de pesquisa." %></p></div>
+      <div class="research-block"><h3><span>02</span> Objetivos</h3><p><%= @orientation.student.objectives.presence || "Ainda não registrados." %></p></div>
+      <div class="research-block"><h3><span>03</span> Metodologia</h3><p><%= @orientation.student.methodology.presence || "Ainda não registrada." %></p></div>
+    </section>
+
+    <section class="panel detail-card"><div class="panel-heading"><div><span class="eyebrow">MEMÓRIA DOS ENCONTROS</span><h2>Registros de orientação</h2></div><span class="count-pill"><%= @orientation.meetings.size %></span></div>
+      <%= form_with model: [@orientation, @meeting], class: "inline-create-form meeting-form" do |form| %>
+        <div class="form-grid"><div class="field"><%= form.label :title, "Assunto do encontro" %><%= form.text_field :title, placeholder: "Ex.: Revisão dos objetivos específicos", required: true %></div><div class="field"><%= form.label :held_at, "Data e hora" %><%= form.datetime_local_field :held_at, required: true %></div><div class="field span-2"><%= form.label :transcript, "Transcrição (opcional)" %><%= form.text_area :transcript, rows: 3, placeholder: "Anotações ou transcrição do encontro" %></div><div class="field span-2"><%= form.label :summary, "Resumo" %><%= form.text_area :summary, rows: 2, placeholder: "Principais pontos discutidos" %></div><div class="field span-2"><%= form.label :next_steps, "Próximos passos" %><%= form.text_area :next_steps, rows: 2, placeholder: "Decisões, responsáveis e prazos" %></div></div>
+        <%= form.submit "＋ Registrar encontro", class: "button secondary" %>
+      <% end %>
+      <% if @orientation.meetings.any? %><div class="timeline-list"><% @orientation.meetings.each do |meeting| %><article class="timeline-item"><span class="timeline-dot"></span><div class="timeline-meta"><strong><%= meeting.title %></strong><span><%= l(meeting.held_at, format: :long) %> · <span class="source-tag <%= meeting.source %>"><%= meeting.source == "robot" ? "ROBÔ" : "PORTAL" %></span></span></div>
+          <% if meeting.summary.present? %><p><%= meeting.summary %></p><% end %><% if meeting.next_steps.present? %><div class="next-steps"><strong>Próximos passos</strong><p><%= meeting.next_steps %></p></div><% end %><% if meeting.transcript.present? %><details class="transcript"><summary>Ver transcrição</summary><p><%= meeting.transcript %></p></details><% end %>
+        </article><% end %></div><% else %><div class="empty-inline">Nenhum encontro registrado. Adicione acima ou envie um registro pela API do robô.</div><% end %>
+    </section>
+  </div>
+
+  <aside class="orientation-side-column">
+    <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PRÓXIMO ENCONTRO</span><h2>Agenda</h2></div><span class="side-icon">◷</span></div>
+      <% if @orientation.next_meeting_at %><div class="next-date"><strong><%= l(@orientation.next_meeting_at, format: "%d") %></strong><div><b><%= l(@orientation.next_meeting_at, format: "%B") %></b><span><%= l(@orientation.next_meeting_at, format: "%A") %> · <%= l(@orientation.next_meeting_at, format: "%H:%M") %></span></div></div><% else %><p class="muted">Nenhum encontro agendado.</p><% end %>
+      <%= form_with model: @orientation, class: "schedule-form" do |form| %><div class="field"><%= form.label :next_meeting_at, "Agendar / atualizar" %><%= form.datetime_local_field :next_meeting_at %></div><%= form.submit "Salvar agenda", class: "button secondary full" %><% end %>
+    </section>
+    <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+      <%= form_with model: [@orientation, @task], class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+      <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    </section>
+    <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+      <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+      <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+    </section>
+    <section class="api-hint"><span>✳</span><div><strong>O robô também pode registrar aqui</strong><p>Os novos encontros enviados pela API aparecem neste histórico com a transcrição e os próximos passos.</p><%= link_to "Ver guia de integração →", assistant_path %></div></section>
+  </aside>
+</div>

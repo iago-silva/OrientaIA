@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "OrientaAI · Meu espaço" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="OrientaAI">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+  <body>
+    <% if current_student %>
+      <div class="student-shell">
+        <aside class="student-sidebar">
+          <%= link_to root_path, class: "orienta-brand" do %><span class="orienta-mark">O</span><span>OrientaAI</span><% end %>
+          <div class="workspace-label">MEU ESPAÇO ACADÊMICO</div>
+          <div class="workspace-card"><span class="workspace-icon">⌁</span><div><strong>Mestrado em Educação</strong><small>Turma 2025 · Pesquisa em curso</small></div><span class="tiny-chevron">⌄</span></div>
+          <nav class="student-nav" aria-label="Menu do estudante">
+            <%= link_to root_path, class: current_page?(root_path) ? "active" : "" do %><span>▦</span>Painel<% end %>
+            <%= link_to academic_works_path, class: controller_name == "academic_works" || controller_name == "work_versions" || controller_name == "review_comments" ? "active" : "" do %><span>▤</span>Trabalhos<% end %>
+            <%= link_to abnt_analysis_path, class: controller_name == "abnt_analyses" || controller_name == "abnt_checks" ? "active" : "" do %><span>⌕</span>Análise ABNT<% end %>
+            <%= link_to student_agenda_path, class: controller_name == "student_agenda" || controller_name == "student_tasks" ? "active" : "" do %><span>◷</span>Agenda<% end %>
+            <%= link_to student_meetings_path, class: controller_name == "student_meetings" ? "active" : "" do %><span>▧</span>Reuniões<% end %>
+            <%= link_to opportunity_recommendations_path, class: controller_name == "opportunity_recommendations" ? "active" : "" do %><span>♧</span>Submissões<% end %>
+          </nav>
+          <div class="side-research"><span class="workspace-label">PESQUISA ATUAL</span><strong><%= truncate(current_student.project_title.presence || "Minha pesquisa", length: 53) %></strong><small>Dissertação · Qualificação</small><div class="mini-progress"><span style="width: <%= current_student.progress %>%"></span></div><small><%= current_student.progress %>% do projeto concluído</small></div>
+          <div class="side-opinion"><span>✳</span><div><strong>Seu olhar crítico importa.</strong><p>A IA sugere; suas decisões acadêmicas continuam sendo suas.</p></div></div>
+          <div class="sidebar-bottom"><span>ⓘ</span> Ajuda e boas práticas</div>
+        </aside>
+        <div class="student-main">
+          <header class="student-topbar"><div class="breadcrumbs"><span>Meu espaço</span><b>›</b><strong><%= content_for(:section_name) || student_section_name %></strong></div><div class="topbar-tools"><span class="demo-badge">Ambiente de demonstração</span><button class="icon-button" type="button" aria-label="Notificações">♧<i></i></button><span class="top-separator"></span><div class="avatar student-avatar"><%= initials(current_student.name) %></div><strong class="top-user-name"><%= current_student.name %></strong><span class="tiny-chevron">⌄</span><%= button_to "Sair", logout_path, method: :delete, class: "logout-link student-logout" %></div></header>
+          <main class="student-page">
+            <% if notice.present? %><div class="flash notice"><span>✓</span><%= notice %></div><% end %>
+            <% if alert.present? %><div class="flash alert"><span>!</span><%= alert %></div><% end %>
+            <%= yield %>
+          </main>
+          <footer class="student-footer"><span>Dados e documentos fictícios para demonstração.</span><span>OrientaAI · Apoio à pesquisa, com autonomia acadêmica</span></footer>
+        </div>
+      </div>
+    <% elsif current_professor %>
+      <div class="app-shell">
+        <header class="topbar">
+          <%= link_to root_path, class: "brand" do %><span class="brand-mark">O</span><span>OrientaAI<small>ESPAÇO DA ORIENTAÇÃO</small></span><% end %>
+          <nav class="main-nav" aria-label="Navegação principal">
+            <%= link_to root_path, class: (current_page?(root_path) ? "active" : "") do %><span>⌂</span> Painel<% end %>
+            <%= link_to students_path, class: (controller_name == "students" ? "active" : "") do %><span>♙</span> Alunos<% end %>
+            <%= link_to orientations_path, class: (controller_name == "orientations" ? "active" : "") do %><span>▤</span> Orientações<% end %>
+            <%= link_to assistant_path, class: (controller_name == "assistant" ? "active" : "") do %><span>✳</span> API do robô<% end %>
+          </nav>
+          <div class="account-menu"><div class="avatar"><%= initials(current_professor.name) %></div><div class="account-name"><strong><%= current_professor.name %></strong><small><%= current_professor.institution.presence || "Orientadora" %></small></div><%= button_to "Sair", logout_path, method: :delete, class: "logout-link" %></div>
+        </header>
+        <main class="page-wrap"><% if notice.present? %><div class="flash notice"><span>✓</span><%= notice %></div><% end %><% if alert.present? %><div class="flash alert"><span>!</span><%= alert %></div><% end %><%= yield %></main>
+        <footer class="app-footer"><span>OrientaAI · Apoio à orientação acadêmica</span><span>Protótipo MVP · 2026</span></footer>
+      </div>
+    <% else %>
+      <% if notice.present? %><div class="flash notice auth-flash"><span>✓</span><%= notice %></div><% end %>
+      <% if alert.present? %><div class="flash alert auth-flash"><span>!</span><%= alert %></div><% end %>
+      <%= yield %>
+    <% end %>
+  </body>
+</html>

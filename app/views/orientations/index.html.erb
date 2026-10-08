@@ -1,0 +1,13 @@
+<% content_for :title, "Orientações · OrientaAI" %>
+<section class="page-heading"><div><span class="eyebrow">ACOMPANHAMENTO ACADÊMICO</span><h1>Orientações</h1><p>Um espaço de contexto, encontros e próximos passos para cada pesquisa.</p></div><%= link_to "+  Novo aluno", new_student_path, class: "button primary" %></section>
+<div class="orientation-grid">
+  <% @orientations.each do |orientation| %>
+    <%= link_to orientation_path(orientation), class: "orientation-card" do %>
+      <div class="orientation-card-top"><div class="avatar"><%= initials(orientation.student.name) %></div><span class="status-pill <%= orientation.status %>"><i></i><%= formatted_status(orientation.status) %></span></div>
+      <span class="program-tag"><%= orientation.student.program %></span>
+      <h2><%= orientation.student.name %></h2><p class="orientation-title"><%= orientation.title %></p>
+      <div class="orientation-card-bottom"><span>◷ <%= orientation.next_meeting_at ? l(orientation.next_meeting_at, format: "%d %b · %H:%M") : "Sem próximo encontro" %></span><span>Ver acompanhamento →</span></div>
+    <% end %>
+  <% end %>
+</div>
+<% if @orientations.empty? %><section class="panel empty-state"><span>▤</span><strong>Nenhuma orientação cadastrada ainda</strong><p>Cadastre um aluno para abrir o primeiro acompanhamento.</p><%= link_to "Cadastrar aluno", new_student_path, class: "button primary" %></section><% end %>
