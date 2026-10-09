@@ -3708,3 +3708,1247 @@ Processing by StudentMeetingsController#index as HTML
 Completed 200 OK in 18ms (Views: 8.2ms | ActiveRecord: 1.3ms (10 queries, 1 cached) | GC: 0.0ms)
 
 
+Started GET "/" for 127.0.0.1 at 2026-10-09 17:31:16 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mStudent Load (16.5ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:19:in 'ApplicationController#current_student'
+  [1m[36mOrientation Load (0.3ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:5:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/student_dashboard.html.erb within layouts/application
+  [1m[36mReviewComment Count (1.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "review_comments" INNER JOIN "academic_works" ON "academic_works"."id" = "review_comments"."academic_work_id" WHERE "academic_works"."student_id" = 5 AND "review_comments"."status" = 'open' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:5
+  [1m[36mAcademicWork Load (0.4ms)[0m  [1m[34mSELECT "academic_works".* FROM "academic_works" WHERE "academic_works"."student_id" = 5 ORDER BY "academic_works"."updated_at" DESC /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:6
+  [1m[36mWorkVersion Load (2.0ms)[0m  [1m[34mSELECT "work_versions".* FROM "work_versions" WHERE "work_versions"."academic_work_id" IN (1, 3, 2) ORDER BY "work_versions"."version_number" DESC /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:6
+  [1m[36mReviewComment Load (0.1ms)[0m  [1m[34mSELECT "review_comments".* FROM "review_comments" WHERE "review_comments"."academic_work_id" IN (1, 3, 2) ORDER BY "review_comments"."created_at" DESC /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:6
+  [1m[36mProfessor Load (0.0ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:21
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" WHERE "meetings"."orientation_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:37
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:37
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" WHERE "tasks"."orientation_id" = 5 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:42
+  [1m[36mTask Load (0.7ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:42
+  [1m[36mTask Load (0.0ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:43
+  [1m[36mCACHE Task Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" WHERE "tasks"."orientation_id" = 5 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:43
+  [1m[36mOpportunityRecommendation Load (0.4ms)[0m  [1m[34mSELECT "opportunity_recommendations".* FROM "opportunity_recommendations" WHERE "opportunity_recommendations"."student_id" = 5 AND "opportunity_recommendations"."status" IN ('recommended', 'saved') ORDER BY "opportunity_recommendations"."relevance" DESC LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/student_dashboard.html.erb:45
+  Rendered dashboard/student_dashboard.html.erb within layouts/application (Duration: 99.7ms | GC: 2.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 102.9ms | GC: 2.6ms)
+Completed 200 OK in 238ms (Views: 104.2ms | ActiveRecord: 21.7ms (14 queries, 1 cached) | GC: 4.0ms)
+
+
+Started DELETE "/logout" for 127.0.0.1 at 2026-10-09 17:47:39 -0300
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token" => "[FILTERED]"}
+  [1m[36mStudent Load (6.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 LIMIT 1 /*action='destroy',application='PpgecMvp',controller='sessions'*/[0m
+  ↳ app/controllers/application_controller.rb:19:in 'ApplicationController#current_student'
+Redirected to http://127.0.0.1:3000/login
+↳ app/controllers/sessions_controller.rb:26:in 'SessionsController#destroy'
+Completed 302 Found in 52ms (ActiveRecord: 5.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2026-10-09 17:47:39 -0300
+Processing by SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering sessions/new.html.erb within layouts/application
+  Rendered sessions/new.html.erb within layouts/application (Duration: 6.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.8ms | GC: 0.0ms)
+Completed 200 OK in 14ms (Views: 11.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for 127.0.0.1 at 2026-10-09 17:47:50 -0300
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token" => "[FILTERED]", "email" => "[FILTERED]", "password" => "[FILTERED]", "commit" => "Entrar no meu espaço"}
+  [1m[36mProfessor Load (4.0ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."email" = 'cynara@produc.demo' LIMIT 1 /*action='create',application='PpgecMvp',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:9:in 'SessionsController#create'
+Redirected to http://127.0.0.1:3000/
+↳ app/controllers/sessions_controller.rb:13:in 'SessionsController#create'
+Completed 302 Found in 232ms (ActiveRecord: 4.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2026-10-09 17:47:50 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 20:47:50.387755' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 20:47:50.387755' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.4ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.3ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.5ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 92.6ms | GC: 9.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 93.2ms | GC: 9.4ms)
+Completed 200 OK in 116ms (Views: 91.6ms | ActiveRecord: 3.9ms (23 queries, 0 cached) | GC: 9.4ms)
+
+
+Using vips to process variants requires the libvips library. Please install libvips using the instructions on the libvips website.
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:34:21 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='PpgecMvp'*/[0m
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:34:21.910346' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:34:21.910346' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 45.3ms | GC: 9.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 50.5ms | GC: 10.0ms)
+Completed 200 OK in 91ms (Views: 51.1ms | ActiveRecord: 3.2ms (23 queries, 0 cached) | GC: 10.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:35:04 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:35:04.701751' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:35:04.701751' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.3ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 27.9ms | GC: 16.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 29.2ms | GC: 16.6ms)
+Completed 200 OK in 42ms (Views: 28.4ms | ActiveRecord: 1.4ms (23 queries, 0 cached) | GC: 21.3ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2026-10-09 18:35:12 -0300
+Processing by StudentsController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = FALSE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Load (0.6ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 ORDER BY "students"."active" DESC, "students"."name" ASC /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 4 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  Rendered students/index.html.erb within layouts/application (Duration: 10.0ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 10.8ms | GC: 0.3ms)
+Completed 200 OK in 16ms (Views: 10.5ms | ActiveRecord: 1.3ms (10 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:35:15 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.6ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 5.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.2ms | GC: 0.2ms)
+Completed 200 OK in 13ms (Views: 8.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/assistente" for 127.0.0.1 at 2026-10-09 18:35:16 -0300
+Processing by AssistantController#show as HTML
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='assistant'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering assistant/show.html.erb within layouts/application
+  Rendered assistant/show.html.erb within layouts/application (Duration: 0.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.6ms | GC: 0.1ms)
+Completed 200 OK in 10ms (Views: 4.4ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.1ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2026-10-09 18:35:17 -0300
+Processing by StudentsController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = FALSE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Load (0.2ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 ORDER BY "students"."active" DESC, "students"."name" ASC /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 4 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  Rendered students/index.html.erb within layouts/application (Duration: 19.4ms | GC: 1.5ms)
+  Rendered layout layouts/application.html.erb (Duration: 19.9ms | GC: 1.5ms)
+Completed 200 OK in 23ms (Views: 19.2ms | ActiveRecord: 1.2ms (10 queries, 0 cached) | GC: 1.5ms)
+
+
+Started GET "/students/new" for 127.0.0.1 at 2026-10-09 18:35:18 -0300
+Processing by StudentsController#new as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='new',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/new.html.erb within layouts/application
+  Rendered students/_form.html.erb (Duration: 6.8ms | GC: 0.0ms)
+  Rendered students/new.html.erb within layouts/application (Duration: 8.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.3ms | GC: 0.0ms)
+Completed 200 OK in 14ms (Views: 9.9ms | ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2026-10-09 18:35:22 -0300
+Processing by StudentsController#index as HTML
+  [1m[36mProfessor Load (0.4ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = FALSE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Load (0.2ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 ORDER BY "students"."active" DESC, "students"."name" ASC /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.8ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 4 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  Rendered students/index.html.erb within layouts/application (Duration: 13.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 15.2ms | GC: 0.0ms)
+Completed 200 OK in 21ms (Views: 14.1ms | ActiveRecord: 2.2ms (10 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:35:24 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:35:24.099644' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:35:24.099644' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 13.1ms | GC: 1.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 13.7ms | GC: 1.6ms)
+Completed 200 OK in 19ms (Views: 13.1ms | ActiveRecord: 1.5ms (23 queries, 0 cached) | GC: 1.6ms)
+
+
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:35:26 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.5ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 11.9ms | GC: 1.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 12.1ms | GC: 1.0ms)
+Completed 500 Internal Server Error in 39ms (ActiveRecord: 1.6ms (6 queries, 0 cached) | GC: 1.6ms)
+
+
+  
+ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+Caused by: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+
+Information for: ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+    32:     <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+    33:       <%= form_with model: [@orientation, @task], class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+    34:       <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    35:     </section>
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+
+Information for cause: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+Started GET "/favicon.ico" for 127.0.0.1 at 2026-10-09 18:35:26 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:35:29 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.3ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 6.9ms | GC: 0.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.0ms | GC: 0.9ms)
+Completed 500 Internal Server Error in 23ms (ActiveRecord: 0.9ms (6 queries, 0 cached) | GC: 2.8ms)
+
+
+  
+ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+Caused by: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+
+Information for: ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+    32:     <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+    33:       <%= form_with model: [@orientation, @task], class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+    34:       <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    35:     </section>
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+
+Information for cause: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:35:56 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (1.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.7ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 4.7ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.0ms | GC: 0.2ms)
+Completed 500 Internal Server Error in 32ms (ActiveRecord: 2.4ms (6 queries, 0 cached) | GC: 2.2ms)
+
+
+  
+ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+Caused by: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+
+Information for: ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+    32:     <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+    33:       <%= form_with model: [@orientation, @task], class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+    34:       <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    35:     </section>
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+
+Information for cause: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:36:42 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.0ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.0ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 3.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.9ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 40ms (ActiveRecord: 2.1ms (6 queries, 0 cached) | GC: 0.1ms)
+
+
+  
+ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+Caused by: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+
+Information for: ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+    32:     <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+    33:       <%= form_with model: @task, url: orientation_tasks_path(@orientation), method: :post, class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+    34:       <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    35:     </section>
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+
+Information for cause: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:36:45 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:36:45.224493' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:36:45.224493' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 14.5ms | GC: 0.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 16.1ms | GC: 0.8ms)
+Completed 200 OK in 37ms (Views: 15.8ms | ActiveRecord: 1.7ms (23 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:36:47 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.2ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:36:47.227350' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:36:47.227350' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.4ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.4ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 25.2ms | GC: 1.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 25.8ms | GC: 1.3ms)
+Completed 200 OK in 32ms (Views: 23.7ms | ActiveRecord: 3.0ms (23 queries, 0 cached) | GC: 1.3ms)
+
+
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:36:48 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.4ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.3ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.4ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.3ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:26:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 4.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.0ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 23ms (ActiveRecord: 1.9ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+Caused by: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id])
+
+Information for: ActionView::Template::Error (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+    32:     <section class="panel side-panel"><div class="panel-heading"><div><span class="eyebrow">PLANO DE TRABALHO</span><h2>Próximos passos</h2></div><span class="count-pill"><%= @orientation.tasks.size %></span></div>
+    33:       <%= form_with model: @task, url: orientation_tasks_path(@orientation), method: :post, class: "task-create-form" do |form| %><div class="field"><%= form.label :title, "Nova tarefa" %><%= form.text_field :title, placeholder: "Ex.: Enviar versão do capítulo", required: true %></div><div class="field"><%= form.label :due_on, "Prazo" %><%= form.date_field :due_on %></div><div class="field"><%= form.label :description, "Detalhes" %><%= form.text_area :description, rows: 2, placeholder: "Orientações sobre a entrega (opcional)" %></div><%= form.submit "＋ Adicionar tarefa", class: "button primary full" %><% end %>
+    34:       <div class="side-task-list"><% @orientation.tasks.each do |task| %><div class="side-task <%= task.status %>"><div><strong><%= task.title %></strong><small><%= task.due_on ? "Prazo: #{l(task.due_on, format: "%d %b %Y")}" : "Sem prazo definido" %></small><% if task.description.present? %><p><%= task.description %></p><% end %></div><% if task.status != "completed" %><%= button_to "Concluir", orientation_task_path(@orientation, task), method: :patch, params: { task: { status: "completed" } }, class: "complete-task" %><% else %><span class="done-label">✓ Feita</span><% end %></div><% end %></div>
+    35:     </section>
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+
+Information for cause: ActionController::UrlGenerationError (No route matches {action: "update", controller: "tasks", id: nil, orientation_id: "5"}, missing required keys: [:id]):
+  
+app/views/orientations/show.html.erb:35
+app/views/orientations/show.html.erb:35
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:37:23 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.0ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.0ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.0ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 5.9ms | GC: 3.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.0ms | GC: 3.0ms)
+Completed 500 Internal Server Error in 38ms (ActiveRecord: 1.5ms (6 queries, 0 cached) | GC: 3.1ms)
+
+
+  
+ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.)
+Caused by: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.)
+
+Information for: ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.):
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+    39:     </section>
+    40:     <section class="api-hint"><span>✳</span><div><strong>O robô também pode registrar aqui</strong><p>Os novos encontros enviados pela API aparecem neste histórico com a transcrição e os próximos passos.</p><%= link_to "Ver guia de integração →", assistant_path %></div></section>
+    41:   </aside>
+    42: </div>
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+
+Information for cause: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.):
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:37:32 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.4ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:37:32.057121' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:37:32.057121' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.1ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 19.1ms | GC: 0.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 21.3ms | GC: 0.6ms)
+Completed 200 OK in 60ms (Views: 21.4ms | ActiveRecord: 2.0ms (23 queries, 0 cached) | GC: 0.9ms)
+
+
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:37:32 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.3ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 2.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.7ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 19ms (ActiveRecord: 1.2ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.)
+Caused by: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.)
+
+Information for: ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.):
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+    39:     </section>
+    40:     <section class="api-hint"><span>✳</span><div><strong>O robô também pode registrar aqui</strong><p>Os novos encontros enviados pela API aparecem neste histórico com a transcrição e os próximos passos.</p><%= link_to "Ver guia de integração →", assistant_path %></div></section>
+    41:   </aside>
+    42: </div>
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+
+Information for cause: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.):
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:37:35 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.3ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (1.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:27:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 3.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.6ms | GC: 0.0ms)
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 1.9ms (6 queries, 0 cached) | GC: 0.9ms)
+
+
+  
+ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.)
+Caused by: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.)
+
+Information for: ActionView::Template::Error (Object must be a Date, DateTime or Time object. nil given.):
+    36:     <section class="panel side-panel feedback-panel"><div class="panel-heading"><div><span class="eyebrow">DEVOLUTIVAS</span><h2>Feedback</h2></div><span class="side-icon">↗</span></div>
+    37:       <%= form_with model: [@orientation, @feedback], class: "feedback-form" do |form| %><div class="field"><%= form.label :content, "Registrar devolutiva" %><%= form.text_area :content, rows: 3, placeholder: "Comentários sobre uma entrega ou orientação...", required: true %></div><%= form.submit "Salvar feedback", class: "button secondary full" %><% end %>
+    38:       <% @orientation.feedbacks.each do |feedback| %><div class="feedback-item"><div class="feedback-meta"><strong><%= feedback.author_name %></strong><span><%= l(feedback.created_at, format: "%d %b") %></span></div><p><%= feedback.content %></p><% if feedback.source == "robot" %><span class="source-tag robot">REGISTRO DO ROBÔ</span><% end %></div><% end %>
+    39:     </section>
+    40:     <section class="api-hint"><span>✳</span><div><strong>O robô também pode registrar aqui</strong><p>Os novos encontros enviados pela API aparecem neste histórico com a transcrição e os próximos passos.</p><%= link_to "Ver guia de integração →", assistant_path %></div></section>
+    41:   </aside>
+    42: </div>
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+
+Information for cause: I18n::ArgumentError (Object must be a Date, DateTime or Time object. nil given.):
+  
+app/views/orientations/show.html.erb:39
+app/views/orientations/show.html.erb:39
+Started GET "/favicon.ico" for 127.0.0.1 at 2026-10-09 18:37:35 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:38:13 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.0ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.0ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.0ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.0ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 2.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.6ms | GC: 0.0ms)
+Completed 200 OK in 29ms (Views: 4.9ms | ActiveRecord: 1.4ms (6 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:18 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.3ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 4.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 29.6ms | GC: 18.5ms)
+Completed 200 OK in 36ms (Views: 30.3ms | ActiveRecord: 0.6ms (2 queries, 0 cached) | GC: 18.5ms)
+
+
+Started GET "/orientations/1" for 127.0.0.1 at 2026-10-09 18:38:19 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mProfessor Load (0.4ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 1 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 1 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.2ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 1 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 5.7ms | GC: 1.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.5ms | GC: 1.1ms)
+Completed 200 OK in 23ms (Views: 7.0ms | ActiveRecord: 1.3ms (6 queries, 0 cached) | GC: 2.6ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:21 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.5ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.7ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 6.5ms | GC: 1.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 10.6ms | GC: 1.1ms)
+Completed 200 OK in 18ms (Views: 10.8ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/orientations/2" for 127.0.0.1 at 2026-10-09 18:38:22 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "2"}
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 2 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.2ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 2 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 2 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 2 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 2 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 3.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 4.4ms | GC: 0.0ms)
+Completed 200 OK in 21ms (Views: 5.0ms | ActiveRecord: 1.0ms (6 queries, 0 cached) | GC: 2.2ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:23 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.3ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 3.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.6ms | GC: 0.0ms)
+Completed 200 OK in 10ms (Views: 6.1ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/orientations/5" for 127.0.0.1 at 2026-10-09 18:38:24 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mProfessor Load (0.3ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 5 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.4ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 5 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.2ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 5 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 5 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.2ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 5 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 3.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.7ms | GC: 2.1ms)
+Completed 200 OK in 26ms (Views: 8.4ms | ActiveRecord: 1.5ms (6 queries, 0 cached) | GC: 3.4ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:25 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.3ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 5.0ms | GC: 1.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.2ms | GC: 1.4ms)
+Completed 200 OK in 10ms (Views: 6.6ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 1.4ms)
+
+
+Started GET "/orientations/4" for 127.0.0.1 at 2026-10-09 18:38:25 -0300
+Processing by OrientationsController#show as HTML
+  Parameters: {"id" => "4"}
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."id" = 4 LIMIT 1 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" = 4 /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mMeeting Load (0.3ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" WHERE "meetings"."orientation_id" = 4 ORDER BY "meetings"."held_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" WHERE "tasks"."orientation_id" = 4 ORDER BY "tasks"."due_on" ASC, "tasks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  [1m[36mFeedback Load (0.1ms)[0m  [1m[34mSELECT "feedbacks".* FROM "feedbacks" WHERE "feedbacks"."orientation_id" = 4 ORDER BY "feedbacks"."created_at" DESC /*action='show',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/orientations_controller.rb:29:in 'OrientationsController#set_orientation'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/show.html.erb within layouts/application
+  Rendered orientations/show.html.erb within layouts/application (Duration: 1.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.3ms | GC: 0.0ms)
+Completed 200 OK in 18ms (Views: 3.0ms | ActiveRecord: 1.0ms (6 queries, 0 cached) | GC: 2.0ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:27 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.3ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 4.6ms | GC: 0.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 6.0ms | GC: 0.7ms)
+Completed 200 OK in 10ms (Views: 6.4ms | ActiveRecord: 0.5ms (2 queries, 0 cached) | GC: 0.7ms)
+
+
+Started GET "/students/new" for 127.0.0.1 at 2026-10-09 18:38:28 -0300
+Processing by StudentsController#new as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='new',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/new.html.erb within layouts/application
+  Rendered students/_form.html.erb (Duration: 3.0ms | GC: 0.0ms)
+  Rendered students/new.html.erb within layouts/application (Duration: 4.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.1ms | GC: 0.0ms)
+Completed 200 OK in 11ms (Views: 6.1ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.5ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2026-10-09 18:38:30 -0300
+Processing by StudentsController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = FALSE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 ORDER BY "students"."active" DESC, "students"."name" ASC /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.2ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.3ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 4 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  Rendered students/index.html.erb within layouts/application (Duration: 16.4ms | GC: 1.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 17.3ms | GC: 1.6ms)
+Completed 200 OK in 22ms (Views: 16.5ms | ActiveRecord: 1.5ms (10 queries, 0 cached) | GC: 1.6ms)
+
+
+Started GET "/assistente" for 127.0.0.1 at 2026-10-09 18:38:32 -0300
+Processing by AssistantController#show as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='show',application='PpgecMvp',controller='assistant'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering assistant/show.html.erb within layouts/application
+  Rendered assistant/show.html.erb within layouts/application (Duration: 0.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 6ms (Views: 3.4ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/orientations" for 127.0.0.1 at 2026-10-09 18:38:34 -0300
+Processing by OrientationsController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering orientations/index.html.erb within layouts/application
+  [1m[36mOrientation Eager Load (0.3ms)[0m  [1m[34mSELECT "orientations"."id" AS t0_r0, "orientations"."professor_id" AS t0_r1, "orientations"."student_id" AS t0_r2, "orientations"."title" AS t0_r3, "orientations"."status" AS t0_r4, "orientations"."next_meeting_at" AS t0_r5, "orientations"."notes" AS t0_r6, "orientations"."created_at" AS t0_r7, "orientations"."updated_at" AS t0_r8, "students"."id" AS t1_r0, "students"."professor_id" AS t1_r1, "students"."name" AS t1_r2, "students"."email" AS t1_r3, "students"."program" AS t1_r4, "students"."research_area" AS t1_r5, "students"."project_title" AS t1_r6, "students"."research_problem" AS t1_r7, "students"."objectives" AS t1_r8, "students"."methodology" AS t1_r9, "students"."active" AS t1_r10, "students"."progress" AS t1_r11, "students"."created_at" AS t1_r12, "students"."updated_at" AS t1_r13, "students"."password_digest" AS t1_r14 FROM "orientations" LEFT OUTER JOIN "students" ON "students"."id" = "orientations"."student_id" WHERE "orientations"."professor_id" = 1 ORDER BY "orientations"."status" ASC, students.name /*action='index',application='PpgecMvp',controller='orientations'*/[0m
+  ↳ app/views/orientations/index.html.erb:5
+  Rendered orientations/index.html.erb within layouts/application (Duration: 6.6ms | GC: 3.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 7.4ms | GC: 3.2ms)
+Completed 200 OK in 10ms (Views: 7.5ms | ActiveRecord: 0.4ms (2 queries, 0 cached) | GC: 3.2ms)
+
+
+Started GET "/students" for 127.0.0.1 at 2026-10-09 18:38:35 -0300
+Processing by StudentsController#index as HTML
+  [1m[36mProfessor Load (0.1ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  Rendering layout layouts/application.html.erb
+  Rendering students/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = FALSE /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:4
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 ORDER BY "students"."active" DESC, "students"."name" ASC /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 4 LIMIT 1 /*action='index',application='PpgecMvp',controller='students'*/[0m
+  ↳ app/views/students/index.html.erb:6
+  Rendered students/index.html.erb within layouts/application (Duration: 8.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.5ms | GC: 0.0ms)
+Completed 200 OK in 13ms (Views: 9.3ms | ActiveRecord: 0.9ms (10 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2026-10-09 18:38:35 -0300
+Processing by DashboardController#index as HTML
+  [1m[36mProfessor Load (0.2ms)[0m  [1m[34mSELECT "professors".* FROM "professors" WHERE "professors"."id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/application_controller.rb:15:in 'ApplicationController#current_professor'
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:20:in 'DashboardController#index'
+  [1m[36mOrientation Count (0.1ms)[0m  [1m[34mSELECT COUNT(DISTINCT "orientations"."id") FROM "orientations" INNER JOIN "tasks" ON "tasks"."orientation_id" = "orientations"."id" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "tasks"."status" = 'completed' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:21:in 'DashboardController#index'
+  Rendering layout layouts/application.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mStudent Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:9
+  [1m[36mOrientation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:10
+  [1m[36mOrientation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:38:35.874656' LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:18
+  [1m[36mOrientation Load (0.1ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."professor_id" = 1 AND "orientations"."status" = 'active' AND "orientations"."next_meeting_at" >= '2026-10-09 21:38:35.874656' ORDER BY "orientations"."next_meeting_at" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (5, 2, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:20
+  [1m[36mTask Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM (SELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 5) AS subquery_for_count /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:33
+  [1m[36mTask Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:34
+  [1m[36mTask Load (0.2ms)[0m  [1m[34mSELECT "tasks".* FROM "tasks" INNER JOIN "orientations" ON "orientations"."id" = "tasks"."orientation_id" WHERE "orientations"."professor_id" = 1 AND "tasks"."status" IN ('pending', 'in_progress') ORDER BY "tasks"."due_on" ASC LIMIT 5 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 2, 1, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (1, 2, 3, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:36
+  [1m[36mStudent Load (0.0ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE ORDER BY "students"."name" ASC LIMIT 4 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:46
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 3 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 2 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."student_id" = 5 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:47
+  [1m[36mStudent Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "students" WHERE "students"."professor_id" = 1 AND "students"."active" = TRUE LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:51
+  [1m[36mMeeting Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 LIMIT 1 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:59
+  [1m[36mMeeting Load (0.1ms)[0m  [1m[34mSELECT "meetings".* FROM "meetings" INNER JOIN "orientations" ON "orientations"."id" = "meetings"."orientation_id" INNER JOIN "professors" ON "professors"."id" = "orientations"."professor_id" WHERE "orientations"."professor_id" = 1 ORDER BY "meetings"."held_at" DESC LIMIT 3 /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mOrientation Load (0.0ms)[0m  [1m[34mSELECT "orientations".* FROM "orientations" WHERE "orientations"."id" IN (5, 4, 3) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  [1m[36mStudent Load (0.1ms)[0m  [1m[34mSELECT "students".* FROM "students" WHERE "students"."id" IN (3, 4, 5) /*action='index',application='PpgecMvp',controller='dashboard'*/[0m
+  ↳ app/views/dashboard/index.html.erb:61
+  Rendered dashboard/index.html.erb within layouts/application (Duration: 19.0ms | GC: 6.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 19.6ms | GC: 6.0ms)
+Completed 200 OK in 32ms (Views: 19.3ms | ActiveRecord: 1.3ms (23 queries, 0 cached) | GC: 6.0ms)
+
+

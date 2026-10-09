@@ -1,0 +1,23 @@
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+/config/master.key
+/config/credentials/*.key
+
+# Local databases, uploads, logs, and temporary files
+/storage/*
+!/storage/.keep
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Bundler and generated files
+/.bundle
+/vendor/bundle
+/coverage
+.DS_Store
+.byebug_history

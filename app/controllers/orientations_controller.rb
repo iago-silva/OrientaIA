@@ -7,6 +7,9 @@ class OrientationsController < ApplicationController
   end
 
   def show
+    @meetings = @orientation.meetings.to_a.select(&:persisted?)
+    @feedbacks = @orientation.feedbacks.to_a.select(&:persisted?)
+    @tasks = @orientation.tasks.to_a.select(&:persisted?)
     @meeting = @orientation.meetings.new(held_at: Time.current)
     @task = @orientation.tasks.new
     @feedback = @orientation.feedbacks.new(author_name: current_professor.name)

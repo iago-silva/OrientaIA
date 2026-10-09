@@ -1,7 +1,9 @@
 class AssistantController < ApplicationController
   before_action :require_professor!
+
   def show
-    @token = ENV.fetch("ROBOT_API_TOKEN", "demo-robot-token")
+    @token_configured = ENV["ROBOT_API_TOKEN"].present?
+    @token = ENV.fetch("ROBOT_API_TOKEN", "demo-robot-token") if Rails.env.development?
     @base_url = request.base_url
   end
 end

@@ -28,6 +28,20 @@ Abra `http://localhost:3000`.
 
 Estudantes, textos, comentários, análises e oportunidades são dados fictícios para demonstração.
 
+## Publicar uma demonstração no Railway
+
+Para uma demonstração pequena com uma única instância, o app pode manter SQLite e Active Storage local; não precisa migrar para PostgreSQL agora.
+
+1. Antes de enviar o repositório, confirme que `.gitignore` está aplicado e que `config/master.key` e os arquivos locais de `storage/` não estão versionados. Se uma chave já foi publicada em um remoto, substitua os segredos antes de usar o app online.
+2. Crie um volume Railway para o serviço web com o ponto de montagem **`/app/storage`**. O banco SQLite de produção e os uploads do Active Storage ficam em `storage/`, então esse volume preserva ambos entre deploys.
+3. Nas variáveis do serviço, configure `RAILS_ENV=production`, `SECRET_KEY_BASE` com um valor novo gerado por `bin/rails secret` e `ROBOT_API_TOKEN` com outro segredo aleatório. Não use `demo-robot-token` em produção. A tela da API mostra o token apenas localmente; em produção, informe o segredo ao cliente do robô por um canal separado.
+4. Mantenha uma única instância enquanto o app usar SQLite em volume local.
+5. Use como Start Command: `bin/rails db:prepare && bin/rails server -b ::`.
+
+O primeiro `db:prepare` cria o banco e carrega os dados de demonstração. Nos deploys seguintes, ele preserva o banco existente e não reaplica as seeds. O volume é montado quando o serviço inicia; por isso, a preparação do banco deve ocorrer no Start Command.
+
+**Atenção ao histórico do repositório:** `config/master.key`, `storage/development.sqlite3` e `storage/test.sqlite3` já aparecem no primeiro commit e no branch remoto `origin/main`. `.gitignore` impede novos arquivos ignorados de serem adicionados, mas não remove arquivos já versionados nem limpa commits antigos. Não publique outro deploy antes de remover esses arquivos do controle de versão e substituir qualquer segredo que possa ter sido exposto. A remoção do histórico remoto exige reescrita do histórico e atualização forçada do branch.
+
 ## O que funciona no protótipo
 
 - Painel da pesquisa com etapas, trabalhos recentes, tarefas e próximas orientações.
