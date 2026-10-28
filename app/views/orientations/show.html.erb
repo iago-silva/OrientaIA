@@ -1,4 +1,4 @@
-<% content_for :title, "Orientação de #{@orientation.student.name} · OrientaAI" %>
+<% content_for :title, "Orientação de #{@orientation.student.name} · PRODUC" %>
 <section class="profile-heading">
   <div><%= link_to "← Orientações", orientations_path, class: "back-link" %><div class="profile-title-row"><div class="avatar large"><%= initials(@orientation.student.name) %></div><div><span class="eyebrow"><%= @orientation.student.program.upcase %> · ORIENTAÇÃO</span><h1><%= @orientation.student.name %></h1><p><%= @orientation.student.research_area.presence || "Área de pesquisa a definir" %></p></div></div></div>
   <div class="profile-actions"><span class="status-pill <%= @orientation.status %>"><i></i><%= formatted_status(@orientation.status) %></span><%= link_to "Editar aluno", edit_student_path(@orientation.student), class: "button secondary" %></div>

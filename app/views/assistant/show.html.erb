@@ -1,39 +1,14 @@
-<% content_for :title, "API do robô · OrientaAI" %>
-<section class="page-heading"><div><span class="eyebrow">INTEGRAÇÃO DO ASSISTENTE DE VOZ</span><h1>API do robô</h1><p>Uma ponte HTTP para transformar comandos e conversas em registros consultáveis no portal.</p></div><span class="api-status"><i></i> API disponível</span></section>
-<section class="api-hero"><div class="api-orb">⌁</div><div><span class="eyebrow light">API REST · VERSÃO 1</span><h2>O robô conversa.<br>O portal guarda o contexto.</h2><p>Use os endpoints abaixo para consultar orientandos, registrar encontros, criar tarefas e salvar devolutivas durante ou depois de uma conversa.</p></div><div class="api-base"><small>BASE URL</small><code><%= @base_url %>/api/v1</code></div></section>
-<div class="api-layout">
-  <div class="api-main">
-    <section class="panel api-section"><div class="panel-heading"><div><span class="eyebrow">AUTENTICAÇÃO</span><h2>Token de acesso</h2></div><span class="lock-icon">⌑</span></div>
-      <% if @token.present? %>
-        <p class="muted">Todas as chamadas precisam enviar este token no cabeçalho HTTP. O token de demonstração fica disponível apenas no ambiente local.</p>
-        <div class="token-box"><span>BEARER TOKEN</span><code><%= @token %></code><span class="status-pill active">LOCAL</span></div>
-        <pre class="code-block"><code>Authorization: Bearer <%= @token %><br>Content-Type: application/json</code></pre>
-      <% elsif @token_configured %>
-        <p class="muted">O token está configurado no servidor. Por segurança, o valor não é enviado ao navegador. Use o segredo definido em <code>ROBOT_API_TOKEN</code> no cliente do robô.</p>
-        <div class="token-box"><span>BEARER TOKEN</span><code>Definido nas variáveis do Railway</code><span class="status-pill active">CONFIGURADO</span></div>
-        <pre class="code-block"><code>Authorization: Bearer SEU_ROBOT_API_TOKEN<br>Content-Type: application/json</code></pre>
-      <% else %>
-        <p class="muted">A API ainda não aceita chamadas neste ambiente. Configure <code>ROBOT_API_TOKEN</code> nas variáveis do serviço antes de conectar o robô.</p>
-        <div class="token-box"><span>BEARER TOKEN</span><code>Aguardando configuração</code><span class="status-pill">PENDENTE</span></div>
-      <% end %>
-    </section>
-    <section class="panel api-section"><div class="panel-heading"><div><span class="eyebrow">CONSULTAR CONTEXTO</span><h2>Leitura para a conversa</h2></div></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/overview</code><span>Resumo da área do professor</span></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/students</code><span>Lista de estudantes (?active=true)</span></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/students/:id</code><span>Perfil e contexto da pesquisa</span></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/orientations</code><span>Orientações (?status=active)</span></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/orientations/:id/tasks</code><span>Tarefas do orientando</span></div>
-      <div class="endpoint"><span class="http-method get">GET</span><code>/orientations/:id/meetings</code><span>Histórico de encontros</span></div>
-    </section>
-    <section class="panel api-section"><div class="panel-heading"><div><span class="eyebrow">REGISTRAR INFORMAÇÕES</span><h2>Escrita pelo robô</h2></div></div>
-      <div class="endpoint"><span class="http-method post">POST</span><code>/orientations/:id/meetings</code><span>Transcrição, resumo e próximos passos</span></div>
-      <div class="endpoint"><span class="http-method post">POST</span><code>/orientations/:id/tasks</code><span>Nova tarefa da orientação</span></div>
-      <div class="endpoint"><span class="http-method patch">PATCH</span><code>/orientations/:orientation_id/tasks/:task_id</code><span>Atualiza status (ex.: concluída)</span></div>
-      <div class="endpoint"><span class="http-method post">POST</span><code>/orientations/:id/feedbacks</code><span>Devolutiva vinculada à orientação</span></div>
-      <div class="endpoint"><span class="http-method post">POST</span><code>/students</code><span>Cadastrar estudante</span></div>
-    </section>
-    <section class="panel api-section"><div class="panel-heading"><div><span class="eyebrow">EXEMPLO DE CHAMADA</span><h2>Registrar um encontro</h2></div></div><p class="muted">Envie os dados estruturados que o robô capturou. Use um <code>external_id</code> único para evitar duplicar o mesmo evento.</p><pre class="code-block large-code"><code>curl -X POST "<%= @base_url %>/api/v1/orientations/1/meetings" -H "Authorization: Bearer <%= @token.presence || 'SEU_ROBOT_API_TOKEN' %>" -H "Content-Type: application/json" -d '{"meeting":{"held_at":"2026-10-07T14:00:00-03:00","title":"Alinhamento da metodologia","transcript":"Transcrição reconhecida pelo robô...","summary":"Definimos os critérios de seleção...","next_steps":"Enviar versão revisada até sexta-feira.","external_id":"gravacao-001"}}'</code></pre></section>
-    <section class="panel api-section"><div class="panel-heading"><div><span class="eyebrow">CONTRATO DA API</span><h2>Formato de respostas</h2></div></div><pre class="code-block"><code>{"data":{"id":12,"title":"Alinhamento da metodologia","summary":"Definimos os critérios de seleção...","next_steps":"Enviar versão revisada até sexta-feira.","source":"robot"}}</code></pre><p class="api-footnote">Erros retornam JSON com <code>error</code> e, em validações, <code>details</code>. As respostas usam códigos HTTP padrão: 201 criado, 401 não autenticado, 404 não encontrado, 422 inválido.</p></section>
+<% content_for :title, "Chat IA · PRODUC" %>
+<section class="lavender-panel reference-page-panel chat-page">
+  <div class="reference-page-heading"><div><h1>Chat IA</h1><p>Assistente IA para <%= current_student ? 'apoiar sua pesquisa de pós-graduação' : 'professores de pós-graduação' %>.</p></div><span class="chat-demo-badge">Demonstração</span></div>
+  <p class="chat-help">Um espaço para sugestões e atividades da sua pesquisa.</p>
+  <div class="chat-conversation">
+    <div class="chat-greeting"><%= portal_icon(:robot) %><p>Olá! Sou seu assistente acadêmico.<br><span>O chat será disponibilizado quando a integração com IA estiver conectada.</span></p></div>
+    <div class="chat-shortcuts">
+      <%= link_to current_student ? student_agenda_path : orientations_path do %><%= portal_icon(:calendar) %>Organizar próximos passos<% end %>
+      <%= link_to current_student ? academic_works_path : students_path do %><%= portal_icon(:book) %><%= current_student ? 'Acompanhar meus trabalhos' : 'Acompanhar meus alunos' %><% end %>
+    </div>
   </div>
-  <aside class="api-sidebar"><section class="panel api-checklist"><span class="eyebrow">ESCOPO DESTE MVP</span><h2>Pronto para conectar</h2><ul><li><span>✓</span> Consultar alunos e pesquisas</li><li><span>✓</span> Gravar reuniões e resumos</li><li><span>✓</span> Criar tarefas e feedback</li><li><span>✓</span> Separar origem web / robô</li><li><span>✓</span> Token Bearer na API</li><li class="future"><span>○</span> Captura de voz e LLM</li></ul><div class="scope-note">O app recebe dados estruturados. Gravação, reconhecimento de voz e geração por IA pertencem à integração do outro TCC.</div></section><section class="api-sidebar-card"><span>↗</span><strong>Um protótipo acadêmico</strong><p>O token desta versão é compartilhado e identifica uma professora de demonstração. Autenticação multiusuário do dispositivo deve ser definida na integração final.</p></section></aside>
-</div>
+  <div class="chat-composer"><label class="visually-hidden" for="chat-message">Mensagem para o assistente</label><textarea id="chat-message" rows="4" placeholder="Em breve, envie suas perguntas por aqui…" disabled aria-describedby="chat-availability"></textarea><div class="chat-composer-actions"><p id="chat-availability">Integração com IA em desenvolvimento.</p><button class="button primary" type="button" disabled><%= portal_icon(:send) %>Enviar</button></div></div>
+  <% if current_professor %><details class="robot-integration"><summary>Integração do robô · documentação da API <span aria-hidden="true">↗</span></summary><%= render "integration" %></details><% end %>
+</section>

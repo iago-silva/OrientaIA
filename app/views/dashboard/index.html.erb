@@ -1,62 +1,56 @@
-<% content_for :title, "Painel da orientação · OrientaAI" %>
-<section class="welcome-row">
-  <div><span class="eyebrow"><span class="live-dot"></span> SEU ESPAÇO DE ORIENTAÇÃO</span><h1>Bom dia, <%= current_professor.name.split.first %> <span class="wave">✦</span></h1><p>Acompanhe o que está acontecendo nas suas orientações.</p></div>
-  <%= link_to "+  Novo aluno", new_student_path, class: "button primary" %>
+<% content_for :title, "Dashboard · PRODUC" %>
+<h1 class="visually-hidden">Dashboard do professor</h1>
+<section class="portal-stats" aria-label="Resumo das orientações">
+  <article><h2>Total de orientações</h2><strong><%= @orientations.count %></strong><small>em andamento</small></article>
+  <article><h2>Alunos ativos</h2><strong><%= @students.count %></strong><small>em acompanhamento</small></article>
+  <article><h2>Média de desempenho</h2><strong><%= @students.average(:progress).to_f.round %>%</strong><small>progresso das pesquisas</small></article>
+  <article><h2>Atividades em aberto</h2><strong><%= @open_task_count %></strong><small>próximos passos do grupo</small></article>
 </section>
-
-<section class="stats-grid">
-  <article class="stat-card"><span class="stat-icon indigo">♙</span><div><span>Alunos ativos</span><strong><%= @students.count %></strong><small>em acompanhamento</small></div><span class="stat-arrow">↗</span></article>
-  <article class="stat-card"><span class="stat-icon teal">▤</span><div><span>Orientações</span><strong><%= @orientations.count %></strong><small>em andamento</small></div><span class="stat-arrow">↗</span></article>
-  <article class="stat-card"><span class="stat-icon orange">◷</span><div><span>Tarefas abertas</span><strong><%= @open_task_count %></strong><small>próximos passos</small></div><span class="stat-arrow">↗</span></article>
-  <article class="stat-card"><span class="stat-icon green">✓</span><div><span>Pesquisas avançando</span><strong><%= @completed_count %></strong><small>com etapas concluídas</small></div><span class="stat-arrow">↗</span></article>
-</section>
-
-<div class="dashboard-grid">
-  <section class="panel schedule-panel">
-    <div class="panel-heading"><div><span class="eyebrow">AGENDA</span><h2>Próximas orientações</h2></div><%= link_to "Ver todas →", orientations_path, class: "text-link" %></div>
+<div class="reference-dashboard">
+  <section class="lavender-panel upcoming-panel">
+    <div class="reference-panel-heading"><h2>Próximas orientações</h2><p>Seus encontros agendados para os próximos dias.</p></div>
     <% if @upcoming.any? %>
-      <div class="agenda-list">
+      <div class="reference-agenda">
         <% @upcoming.each do |orientation| %>
-          <%= link_to orientation_path(orientation), class: "agenda-item" do %>
-            <div class="date-chip"><strong><%= l(orientation.next_meeting_at, format: "%d") %></strong><small><%= l(orientation.next_meeting_at, format: "%b").upcase %></small></div>
-            <div class="agenda-person"><div class="avatar small"><%= initials(orientation.student.name) %></div><div><strong><%= orientation.student.name %></strong><small><%= orientation.title %></small></div></div>
-            <span class="agenda-time">◷ <%= l(orientation.next_meeting_at, format: "%H:%M") %></span><span class="chevron">›</span>
+          <%= link_to orientation_path(orientation), class: "reference-agenda-row" do %>
+            <span><strong><%= orientation.student.name %></strong><small><%= l(orientation.next_meeting_at, format: "%d de %b") %> · <%= orientation.student.program %></small></span>
+            <span class="reference-agenda-time"><%= portal_icon(:clock) %><%= l(orientation.next_meeting_at, format: "%H:%M") %></span>
           <% end %>
         <% end %>
       </div>
-    <% else %><div class="empty-state compact"><span>◷</span><strong>Nenhuma orientação agendada</strong><p>Adicione uma data no perfil de orientação do aluno.</p></div><% end %>
-    <div class="panel-footer-note"><span class="sparkle">✳</span> Um bom encontro começa com o próximo passo bem definido.</div>
+    <% else %>
+      <div class="empty-state compact"><%= portal_icon(:calendar) %><strong>Nenhuma orientação agendada</strong><p>Defina o próximo encontro no acompanhamento de cada aluno.</p></div>
+    <% end %>
+    <%= link_to "Ver todas as orientações →", orientations_path, class: "text-link panel-end-link" %>
   </section>
-
+  <section class="lavender-panel suggestions-panel">
+    <div class="reference-panel-heading"><h2>Sugestões IA</h2><p>Recursos para apoiar suas orientações.</p></div>
+    <div class="reference-suggestion"><h3>Atividades importantes</h3><%= link_to orientations_path, class: "suggestion-bar" do %><span>Organize as próximas entregas do grupo.</span><%= portal_icon(:calendar) %><% end %></div>
+    <div class="reference-suggestion"><h3>Planejamento</h3><%= link_to assistant_path, class: "suggestion-bar" do %><span>Conheça o espaço do assistente acadêmico.</span><%= portal_icon(:chat) %><% end %></div>
+    <p class="suggestion-note">O assistente de IA está em demonstração.</p>
+  </section>
+</div>
+<div class="dashboard-secondary-grid">
   <section class="panel tasks-panel">
-    <div class="panel-heading"><div><span class="eyebrow">ACOMPANHAMENTO</span><h2>Tarefas em aberto</h2></div><span class="count-pill"><%= @pending_tasks.count %></span></div>
-    <% if @pending_tasks.any? %>
-      <div class="task-list">
-        <% @pending_tasks.each do |task| %>
-          <div class="task-item"><span class="check-ring"></span><div><strong><%= task.title %></strong><small><%= link_to task.orientation.student.name, orientation_path(task.orientation) %></small></div><span class="due-date <%= "overdue" if task.due_on && task.due_on < Date.current %>"><%= task.due_on ? l(task.due_on, format: "%d %b") : "Sem prazo" %></span></div>
-        <% end %>
-      </div>
-    <% else %><div class="empty-state compact"><span>✓</span><strong>Tudo em dia</strong><p>Novas tarefas aparecem aqui.</p></div><% end %>
+    <div class="panel-heading"><h2>Tarefas em aberto</h2><span class="count-pill"><%= @open_task_count %></span></div>
+    <% @pending_tasks.each do |task| %>
+      <div class="task-item"><span class="check-ring"></span><div><strong><%= task.title %></strong><small><%= link_to task.orientation.student.name, orientation_path(task.orientation) %></small></div><span class="due-date <%= 'overdue' if task.due_on && task.due_on < Date.current %>"><%= task.due_on ? l(task.due_on, format: "%d %b") : "Sem prazo" %></span></div>
+    <% end %>
+    <% if @pending_tasks.empty? %><p class="empty-state compact">Tudo em dia. Nenhuma tarefa pendente.</p><% end %>
     <%= link_to "Abrir acompanhamento →", orientations_path, class: "panel-bottom-link" %>
   </section>
-
   <section class="panel students-panel">
-    <div class="panel-heading"><div><span class="eyebrow">SEU GRUPO</span><h2>Alunos acompanhados</h2></div><%= link_to "Ver alunos →", students_path, class: "text-link" %></div>
+    <div class="panel-heading"><h2>Alunos acompanhados</h2><%= link_to "Ver alunos →", students_path, class: "text-link" %></div>
     <% @students.first(4).each do |student| %>
       <%= link_to student.orientation ? orientation_path(student.orientation) : student_path(student), class: "student-row" do %>
-        <div class="avatar"><%= initials(student.name) %></div><div class="student-main"><strong><%= student.name %></strong><small><%= student.program %> · <%= student.research_area.presence || "Área a definir" %></small></div><div class="progress-wrap"><div class="progress-track"><span style="width: <%= student.progress %>%"></span></div><small><%= student.progress %>%</small></div>
+        <div class="avatar"><%= initials(student.name) %></div><div class="student-row-main"><strong><%= student.name %></strong><small><%= student.program %> · <%= student.research_area.presence || "Área a definir" %></small></div><div class="progress-wrap"><div class="progress-track"><span style="width: <%= student.progress %>%"></span></div><small><%= student.progress %>%</small></div>
       <% end %>
     <% end %>
     <% if @students.empty? %><div class="empty-state compact"><p>Cadastre seu primeiro aluno para começar.</p><%= link_to "Cadastrar aluno", new_student_path, class: "text-link" %></div><% end %>
   </section>
-
-  <section class="assistant-card">
-    <div class="assistant-orb">✳</div><span class="eyebrow light">UM NOVO JEITO DE ACOMPANHAR</span><h2>Sua orientação,<br>em movimento.</h2><p>Este portal já está preparado para receber registros de um assistente de voz. A conversa acontece no robô; o histórico fica organizado aqui.</p><%= link_to "Conhecer a API do robô →", assistant_path, class: "assistant-link" %><div class="assistant-lines"></div>
-  </section>
 </div>
-
 <% if @recent_meetings.any? %>
-  <section class="panel recent-panel"><div class="panel-heading"><div><span class="eyebrow">MEMÓRIA DE ORIENTAÇÃO</span><h2>Registros recentes</h2></div><%= link_to "Ver orientações →", orientations_path, class: "text-link" %></div>
-    <div class="recent-list"><% @recent_meetings.each do |meeting| %><%= link_to orientation_path(meeting.orientation), class: "recent-item" do %><span class="recent-icon">▧</span><div><strong><%= meeting.title %></strong><small><%= meeting.orientation.student.name %> · <%= l(meeting.held_at, format: :long) %></small></div><span class="source-tag <%= meeting.source %>"><%= meeting.source == "robot" ? "ROBÔ" : "PORTAL" %></span><% end %><% end %></div>
+  <section class="panel recent-panel"><div class="panel-heading"><h2>Registros recentes</h2><%= link_to "Ver orientações →", orientations_path, class: "text-link" %></div>
+    <% @recent_meetings.each do |meeting| %><%= link_to orientation_path(meeting.orientation), class: "recent-item" do %><%= portal_icon(:document) %><div><strong><%= meeting.title %></strong><small><%= meeting.orientation.student.name %> · <%= l(meeting.held_at, format: :long) %></small></div><span class="source-tag <%= meeting.source %>"><%= meeting.source == "robot" ? "ROBÔ" : "PORTAL" %></span><% end %><% end %>
   </section>
 <% end %>

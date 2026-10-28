@@ -1,29 +1,23 @@
-<% content_for :title, "Entrar · OrientaAI" %>
-<div class="auth-page">
-  <section class="auth-intro">
-    <%= link_to root_path, class: "brand brand-light" do %><span class="brand-mark">O</span><span>OrientaAI<small>SEU ESPAÇO DE PESQUISA</small></span><% end %>
-    <div class="auth-copy">
-      <span class="eyebrow light">PESQUISA ACADÊMICA, COM CONTEXTO</span>
-      <h1>Sua pesquisa,<br><em>um passo adiante.</em></h1>
-      <p>Escreva, acompanhe versões e transforme conversas de orientação em próximos passos claros.</p>
-      <div class="auth-feature"><span>✳</span><div><strong>Escrita com acompanhamento</strong><small>Versões, comentários e próximos passos.</small></div></div>
-      <div class="auth-feature"><span>⌁</span><div><strong>IA como apoio</strong><small>Sugestões para você conferir com autonomia.</small></div></div>
+<% content_for :title, "Entrar · PRODUC" %>
+<div class="produc-auth-page">
+  <section class="produc-auth-intro">
+    <div class="auth-cap"><%= portal_icon(:cap) %></div>
+    <h1>Portal do <span>Professor</span><br><small>e do Aluno</small></h1>
+    <p>Gerencie suas orientações, acompanhe o progresso das pesquisas<br class="desktop-break"> e organize seu conteúdo acadêmico em um só lugar.</p>
+    <div class="produc-auth-features">
+      <div><%= portal_icon(:book) %><strong>Gestão acadêmica</strong><small>Organize trabalhos e orientações.</small></div>
+      <div><%= portal_icon(:user) %><strong>Acompanhamento</strong><small>Monitore o progresso da pesquisa.</small></div>
     </div>
-    <div class="auth-foot">OrientaAI <span>·</span> Apoio à pesquisa, com autonomia acadêmica</div>
   </section>
-  <section class="auth-panel-wrap">
-    <div class="auth-panel">
-      <div class="auth-logo"><span class="brand-mark">O</span><strong>OrientaAI</strong></div>
-      <span class="eyebrow">BEM-VINDA DE VOLTA</span>
-      <h2>Acesse seu espaço</h2>
-      <p class="muted">Entre para acompanhar sua pesquisa e suas orientações.</p>
-      <%= form_with url: login_path, class: "form-stack" do |form| %>
-        <div class="field"><%= form.label :email, "E-mail" %><%= form.email_field :email, placeholder: "voce@universidade.br", autocomplete: "username", required: true %></div>
-        <div class="field"><%= form.label :password, "Senha" %><%= form.password_field :password, placeholder: "Sua senha", autocomplete: "current-password", required: true %></div>
-        <%= form.submit "Entrar no meu espaço", class: "button primary full" %>
-      <% end %>
-      <div class="demo-note"><span>✦</span><div><strong>Estudante · demonstração</strong><br><b>marina.costa@orienta.demo</b> · senha <b>pesquisa2026</b><br><strong>Professora · API do robô</strong><br><b>cynara@produc.demo</b> · senha <b>produc2026</b></div></div>
-      <p class="auth-switch">Ainda não tem uma conta? <%= link_to "Criar cadastro", signup_path %></p>
-    </div>
+  <section class="produc-auth-card" aria-labelledby="login-heading">
+    <%= link_to login_path, class: "produc-brand auth-brand" do %><%= portal_icon(:robot, class: "produc-mascot") %><span>PRODUC</span><% end %>
+    <h2 id="login-heading">Bem-vindo de volta!</h2><p class="auth-card-description">Acesse seu espaço acadêmico.</p>
+    <%= form_with url: login_path, class: "form-stack" do |form| %>
+      <div class="field"><%= form.label :email, "Login" %><%= form.email_field :email, placeholder: "E-mail", autocomplete: "username", required: true %></div>
+      <div class="field"><%= form.label :password, "Senha" %><%= form.password_field :password, placeholder: "Sua senha", autocomplete: "current-password", required: true %></div>
+      <%= form.submit "Entrar", class: "button auth-submit full" %>
+    <% end %>
+    <p class="auth-switch">Não tem cadastro? <%= link_to "Faça agora!", signup_path %></p>
+    <details class="auth-demo"><summary>Conheça as contas de demonstração</summary><p><strong>Aluno</strong><br>marina.costa@orienta.demo<br>Senha: pesquisa2026</p><p><strong>Professor</strong><br>cynara@produc.demo<br>Senha: produc2026</p></details>
   </section>
 </div>

@@ -1,4 +1,4 @@
-<% content_for :title, "Painel · OrientaAI" %>
+<% content_for :title, "Painel · PRODUC" %>
 <% content_for :section_name, "Painel" %>
 <% stage = [[(@student.progress / 20.0).ceil, 1].max, 5].min %>
 <% open_reviews = ReviewComment.joins(:academic_work).where(academic_works: { student_id: @student.id }, status: "open").count %>

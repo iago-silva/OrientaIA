@@ -1,4 +1,4 @@
-<% content_for :title, "Revisão · #{@work.title} · OrientaAI" %>
+<% content_for :title, "Revisão · #{@work.title} · PRODUC" %>
 <% content_for :section_name, "Trabalhos / Revisão" %>
 <section class="work-toolbar"><div><%= link_to "← Trabalhos", academic_works_path, class: "student-back-link" %><h1><%= @work.title %></h1><p>Versão <%= @version&.version_number || @work.current_version %> · <%= @work.manuscript.to_s.lines.count %> linhas de prévia · Atualizado em <%= l(@work.updated_at, format: "%d %b %Y · %H:%M") %></p></div><div class="work-toolbar-actions"><%= link_to "Exportar orientações", academic_work_path(@work, format: :html), class: "student-outline-button" %><span class="comment-count"><%= @work.review_comments.where(status: "open").count %> não resolvidas</span></div></section>
 <div class="review-workspace">

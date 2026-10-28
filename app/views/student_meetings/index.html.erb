@@ -1,4 +1,4 @@
-<% content_for :title, "Reuniões · OrientaAI" %>
+<% content_for :title, "Reuniões · PRODUC" %>
 <% content_for :section_name, "Reuniões" %>
 <section class="student-welcome compact-student-welcome"><div><span class="eyebrow student-eyebrow">MEMÓRIA DA ORIENTAÇÃO</span><h1>Cada conversa, um caminho registrado.</h1><p>Reúna transcrições, resumos e encaminhamentos em um só lugar.</p></div><a class="button teal-button" href="#new-meeting">＋ Registrar reunião</a></section>
 <div class="meeting-context-bar"><span class="meeting-context-icon">▧</span><div><strong><%= current_student.name %> · Profa. <%= @orientation&.professor&.name || "orientadora" %></strong><small><%= current_student.program %> · Histórico compartilhado de orientação</small></div><span><%= @meetings.count %> reuniões</span><span><%= @meetings.sum { |meeting| meeting.transcript.to_s.lines.count } %> transcrições</span></div>

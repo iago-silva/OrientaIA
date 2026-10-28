@@ -1,0 +1,340 @@
+/* Visual identity shared by the professor and student portals. */
+:root {
+  --ink: #172b33;
+  --muted: #64717d;
+  --teal: #054859;
+  --teal-dark: #033b49;
+  --orange: #ff9b43;
+  --line: #d4d7e4;
+  --lavender: #e6eaff;
+  --radius: 18px;
+  --shadow: 0 2px 2px #162c3d12;
+}
+body.produc { background: #fff; color: var(--ink); font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+.produc h1, .produc h2, .produc h3 { font-family: inherit; letter-spacing: 0; }
+.produc :is(strong, b, input, button, select, textarea) { font-family: Arial, Helvetica, sans-serif; }
+.produc h1 { font-size: 25px; font-weight: 500; }
+.produc h2 { font-weight: 500; }
+.portal-icon { display: inline-block; width: 21px; height: 21px; flex: 0 0 auto; vertical-align: middle; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; top: -70px; left: 20px; padding: 12px 20px; z-index: 20; color: #fff; background: var(--teal); }
+.skip-link:focus { top: 8px; }
+.produc :focus-visible { outline: 3px solid #087bd7; outline-offset: 4px; }
+.portal-shell { min-height: 100vh; }
+.portal-header { background: var(--teal); color: #fff; }
+.portal-header-inner { width: 88%; max-width: 1680px; min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: auto; }
+.produc-brand { display: inline-flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 700; color: #ff9c32; letter-spacing: .035em; }
+.produc-brand .produc-mascot { height: 55px; width: 36px; color: #d0e0e9; stroke-width: 1.2; filter: drop-shadow(1px 2px 1px #001b2960); }
+.portal-account { display: flex; gap: 19px; align-items: center; font-size: 12px; color: #dae8ec; }
+.portal-account strong { font-weight: 400; text-decoration: underline; text-underline-offset: 3px; }
+.portal-logout { padding: 8px 0; border: 0; background: transparent; font-size: 12px; color: #fff; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.portal-user-icon { display: grid; place-items: center; border: 2px solid var(--orange); color: var(--orange); height: 34px; width: 34px; border-radius: 50%; overflow: hidden; }
+.portal-user-icon .portal-icon { width: 29px; height: 29px; transform: translateY(3px); }
+.portal-container { width: 88%; max-width: 1680px; margin: 0 auto; }
+.portal-nav { display: flex; align-items: stretch; justify-content: space-around; min-height: 76px; padding: 0 16px; border-radius: 0 0 15px 15px; border-bottom: 1px solid #aeb3bc; box-shadow: 0 2px 2px #152b3912; margin-bottom: 12px; gap: 8px; }
+.portal-nav-link { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 18px 20px; color: #29323b; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; transition: color .15s, background .15s; }
+.portal-nav-link:hover { color: var(--teal); background: #f5f6ff; }
+.portal-nav-link.is-active { color: var(--teal); font-weight: 600; }
+.portal-nav-link.is-active::after { content: ''; position: absolute; bottom: 0; left: 25%; right: 25%; height: 3px; background: var(--orange); border-radius: 3px 3px 0 0; }
+.portal-main, .portal-main.student-page { width: 100%; max-width: none; margin: 0; padding: 0; min-height: calc(100vh - 232px); }
+.portal-main:focus { outline: none; }
+.portal-footer { display: flex; justify-content: space-between; gap: 20px; padding: 25px 0 20px; font-size: 11px; color: #7a8390; }
+.produc .flash { margin: 14px 0; }
+.produc .flash .portal-icon { width: 18px; height: 18px; }
+.produc .button { border-radius: 9px; font-size: 13px; font-weight: 500; padding: 11px 18px; box-shadow: none; min-height: 38px; }
+.produc .button .portal-icon { width: 18px; height: 18px; }
+.produc .button.primary, .produc .teal-button { background: var(--teal); color: #fff; }
+.produc .orange-button { border-radius: 24px; background: var(--orange); color: #302514; box-shadow: 0 2px 2px #29201725; padding: 10px 20px; white-space: nowrap; }
+.produc .orange-button:hover { background: #ffac63; }
+.produc .button.secondary, .produc .student-outline-button { background: #fff9f2; border: 1px solid #ddbe9b; color: #664727; }
+.produc .text-link, .produc .student-text-link { color: var(--teal); }
+.lavender-panel { background: var(--lavender); border-radius: 20px; padding: 30px; }
+.portal-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; padding: 17px 24px; background: var(--teal); color: #fff; border-radius: 17px; margin-bottom: 12px; }
+.portal-stats h2 { font-size: 15px; margin: 0 0 12px; }
+.portal-stats strong { display: block; font-size: 21px; font-weight: 400; }
+.portal-stats small { display: block; color: #cce0e6; font-size: 11px; margin-top: 10px; }
+.reference-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.reference-dashboard > section { min-height: 440px; box-shadow: 0 2px 2px #14263a30; position: relative; padding-bottom: 60px; }
+.reference-panel-heading h2 { font-size: 17px; text-align: center; text-decoration: underline; text-underline-offset: 4px; margin: 0 0 13px; }
+.reference-panel-heading p { font-size: 11px; color: #60707b; margin: 0 0 22px; }
+.reference-agenda-row { display: flex; justify-content: space-between; gap: 15px; align-items: center; padding: 12px 0; color: var(--teal); border-bottom: 1px solid #d7ddef; }
+.reference-agenda-row:hover { color: #8d4c15; }
+.reference-agenda-row strong { display: block; font-size: 13px; font-weight: 500; }
+.reference-agenda-row small { display: block; font-size: 10px; color: #687785; margin-top: 5px; }
+.reference-agenda-time { display: flex; align-items: center; gap: 9px; font-size: 12px; white-space: nowrap; }
+.panel-end-link { position: absolute; bottom: 25px; left: 30px; }
+.reference-suggestion { margin-bottom: 23px; }
+.reference-suggestion h3 { color: var(--teal); font-size: 11px; font-weight: 400; margin: 0 0 8px; }
+.suggestion-bar { display: flex; gap: 12px; align-items: center; background: #d8dadd; border-radius: 25px; color: #515b65; padding: 13px 17px; font-size: 12px; }
+.suggestion-bar:hover { background: #cbd4dd; }
+.suggestion-bar .portal-icon { width: 16px; height: 16px; }
+.suggestion-note { font-size: 11px; color: #64717d; }
+.dashboard-secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.produc .panel { background: var(--lavender); border: 0; box-shadow: none; }
+.produc .panel h2 { font-size: 18px; }
+.produc .students-panel { grid-column: auto; }
+.student-row-main { min-width: 0; flex: 1; }
+.student-row-main strong, .student-row-main small { display: block; }
+.student-row-main strong { font-size: 13px; }
+.student-row-main small { font-size: 11px; color: var(--muted); margin-top: 5px; }
+.produc .student-row, .produc .task-item, .produc .recent-item { border-color: #cfd6ec; }
+.produc .task-item strong, .produc .recent-item strong { font-size: 13px; }
+.produc .task-item small, .produc .recent-item small { font-size: 11px; color: #64717d; }
+.reference-page-panel { min-height: 620px; padding: 35px 7%; }
+.reference-page-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; margin-bottom: 32px; }
+.reference-page-heading h1 { margin: 0 0 9px; font-size: 25px; }
+.reference-page-heading p { font-size: 14px; margin: 0; color: #293945; line-height: 1.5; }
+.insert-student { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 11px; white-space: nowrap; }
+.insert-student .portal-icon { width: 38px; height: 38px; stroke-width: 1.8; }
+.insert-student:hover { color: #a35415; }
+.reference-students { display: grid; gap: 20px; }
+.reference-student-card { display: grid; grid-template-columns: minmax(0,1fr) 145px auto; align-items: center; gap: 28px; border: 1px solid #949baa; border-radius: 25px; padding: 25px 30px; }
+.reference-student-info { min-width: 0; }
+.reference-student-info h2 { font-size: 14px; margin: 0 0 12px; line-height: 1.5; }
+.reference-student-info h2 span { font-weight: 400; }
+.reference-student-info p { font-size: 12px; color: #495766; margin: 0 0 8px; overflow-wrap: anywhere; }
+.reference-student-info small { font-size: 11px; color: #5b6875; }
+.reference-performance { text-align: center; font-size: 12px; }
+.reference-performance strong { display: block; font-size: 15px; font-weight: 400; margin-top: 15px; }
+.reference-orientation-groups { display: grid; gap: 22px; margin-top: 55px; }
+.orientation-group { border: 1px solid #949baa; border-radius: 24px; overflow: hidden; }
+.orientation-group summary { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 25px 40px; cursor: pointer; list-style: none; font-size: 17px; }
+.orientation-group summary::-webkit-details-marker { display: none; }
+.orientation-group[open] summary { border-bottom: 1px solid #c5cce0; }
+.orientation-group summary:hover { background: #dfe5fd; }
+.orientation-group-content { padding: 0 30px 24px; }
+.group-student-link { display: flex; align-items: center; gap: 15px; padding: 20px 0; border-bottom: 1px solid #cdd4ea; margin-bottom: 15px; }
+.group-student-link > div { flex: 1; min-width: 0; }
+.group-student-link strong { display: block; font-size: 14px; }
+.group-student-link small { display: block; margin-top: 7px; color: #5d6979; font-size: 12px; line-height: 1.5; }
+.group-student-link:hover strong { text-decoration: underline; }
+.group-empty { font-size: 13px; color: #64717d; padding-top: 20px; }
+/* Existing detail screens keep all their actions inside the new identity. */
+.produc .page-heading, .produc .profile-heading { padding-top: 25px; }
+.produc .page-heading h1, .produc .profile-heading h1 { font-size: 27px; }
+.produc .orientation-card, .produc .student-form { background: var(--lavender); }
+.produc .field input, .produc .field textarea, .produc .field select { background: #f3f3f5; border: 1px solid #d8dce4; color: #243743; border-radius: 6px; font-family: inherit; }
+.produc .field label { color: #253540; }
+.produc .empty-state > .portal-icon { width: 34px; height: 34px; margin-bottom: 14px; color: var(--teal); }
+/* Student screens use the same horizontal shell, colors and panels. */
+.produc .student-welcome { background: var(--lavender); padding: 28px 32px; border-radius: 18px; margin-bottom: 12px; align-items: center; }
+.produc .student-welcome h1 { font-size: 25px; font-weight: 500; color: var(--ink); margin: 5px 0 10px; }
+.produc .student-welcome p { font-size: 14px; color: #52606f; line-height: 1.6; }
+.produc .student-eyebrow { font-size: 10px; color: #596d81; }
+.produc .student-metrics { gap: 0; background: var(--teal); border-radius: 17px; overflow: hidden; padding: 8px; margin-bottom: 12px; }
+.produc .metric-card { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 18px 22px; }
+.produc .metric-head, .produc .metric-card > strong, .produc .metric-card > strong small, .produc .metric-foot { color: #fff; }
+.produc .metric-head { font-size: 14px; }
+.produc .metric-card > strong { margin: 10px 0; font-family: inherit; font-weight: 400; }
+.produc .metric-foot { color: #cde0e6; font-size: 11px; }
+.produc .metric-glyph { color: #ffaf61; background: #ffffff10; }
+.produc .student-dashboard-grid { grid-template-columns: minmax(0,1.6fr) minmax(280px,1fr); gap: 14px; }
+.produc .student-dashboard-main, .produc .student-dashboard-aside { gap: 14px; }
+.produc .student-card, .produc .student-ai-reading, .produc .student-ai-note, .produc .meeting-related-work { background: var(--lavender); border: 0; border-radius: 18px; box-shadow: none; padding: 24px; }
+.produc .student-card-heading h2, .produc .upload-work-header h2, .produc .work-toolbar h1 { font-family: inherit; color: var(--ink); }
+.produc .student-card-heading > div > p { color: #5c6b77; line-height: 1.5; }
+.produc .student-card-heading { gap: 14px; }
+.produc .today-card { background: var(--teal); border-radius: 18px; padding: 24px; }
+.produc .today-card h2 { font-family: inherit; font-weight: 500; }
+.produc .today-task { max-width: none; }
+.produc .today-link { color: #ffc58b; }
+.produc .student-card .student-text-link { font-size: 12px; }
+.produc .student-small-action { background: var(--orange); color: #392b19; border-radius: 20px; }
+.produc .student-outline-button { border-radius: 8px; }
+.produc .research-step.current .step-node { background: var(--teal); border-color: var(--teal); }
+.produc .research-card-bottom, .produc .research-steps, .produc .recent-work-row, .produc .mini-task, .produc .last-meeting, .produc .recommended-event, .produc .version-row, .produc .agenda-task-row { border-color: #ccd4e9; }
+.produc .research-card-bottom { gap: 12px; flex-wrap: wrap; }
+.produc .recent-work-main strong, .produc .mini-task strong, .produc .last-meeting strong { color: #314656; }
+.produc .recent-work-main small, .produc .mini-task small, .produc .last-meeting small, .produc .research-step small { color: #637181; }
+.produc .meeting-next, .produc .library-tip, .produc .upload-drop { background: #f5f6ff; }
+.produc .analysis-metrics article { background: var(--teal); border: 0; }
+.produc .analysis-metrics article strong, .produc .analysis-metrics article small { color: #fff; }
+.produc .works-library-layout { grid-template-columns: 230px minmax(0,1fr) 235px; }
+.produc .review-comments-panel, .produc .meeting-context-bar, .produc .meeting-summary-column > section { background: var(--lavender); border-color: #d3daed; border-radius: 15px; }
+.produc .opportunity-card { background: var(--lavender); border: 0; border-radius: 18px; padding: 22px; }
+.produc .opportunity-filters { flex-wrap: wrap; }
+.produc .opportunity-filters .filter-chip { white-space: normal; }
+.produc .review-workspace { grid-template-columns: minmax(0,1.45fr) minmax(270px,.75fr); }
+.produc .meetings-workspace { grid-template-columns: 280px minmax(0,1fr) 260px; }
+/* Assistant preview; the integration documentation remains available to professors. */
+.chat-demo-badge { background: #fff7ed; color: #92501b; font-size: 11px; border-radius: 20px; padding: 7px 11px; white-space: nowrap; }
+.chat-page .reference-page-heading { margin-bottom: 25px; }
+.chat-help { color: #64717d; font-size: 12px; margin-bottom: 25px; }
+.chat-conversation { background: #dfe3f0; border: 1px solid #cdd4e5; border-radius: 19px; min-height: 190px; padding: 25px; }
+.chat-greeting { display: flex; align-items: flex-start; gap: 13px; }
+.chat-greeting > .portal-icon { width: 31px; height: 31px; color: var(--teal); }
+.chat-greeting p { font-size: 14px; line-height: 1.7; }
+.chat-greeting p span { font-size: 12px; color: #596879; }
+.chat-shortcuts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.chat-shortcuts a { display: inline-flex; align-items: center; gap: 7px; padding: 10px 13px; border-radius: 20px; background: #f7f8ff; color: var(--teal); font-size: 12px; }
+.chat-shortcuts a:hover { background: #fff; }
+.chat-shortcuts .portal-icon { width: 16px; height: 16px; }
+.chat-composer { margin-top: 18px; }
+.chat-composer textarea { resize: vertical; width: 100%; background: #f2f3fa; border: 1px solid #cbd2e2; border-radius: 14px; padding: 16px; font-size: 13px; color: #596879; }
+.chat-composer-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 12px; }
+.chat-composer-actions p { font-size: 11px; color: #657181; margin: 0; }
+.chat-composer-actions button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.robot-integration { border-top: 1px solid #ccd3e7; margin-top: 40px; padding-top: 22px; }
+.robot-integration > summary { cursor: pointer; color: var(--teal); font-size: 13px; }
+.robot-integration .api-layout { grid-template-columns: minmax(0,1fr); }
+.robot-integration .api-sidebar { position: static; }
+.robot-integration .api-section { background: #f7f8ff; }
+.robot-integration .page-heading h1 { font-size: 22px; }
+/* Authentication matches the reference's teal background and white card. */
+body.authentication-page { background: var(--teal); }
+.produc-auth-page { min-height: 100vh; width: min(1420px,88%); margin: 0 auto; display: grid; grid-template-columns: minmax(0,1fr) 420px; gap: 10%; align-items: center; padding: 45px 0; }
+.produc-auth-intro { color: #fff; padding-left: 4%; }
+.auth-cap { display: grid; place-items: center; background: #ff7518; border-radius: 13px; width: 66px; height: 66px; margin-bottom: 25px; }
+.auth-cap .portal-icon { height: 38px; width: 38px; }
+.produc-auth-intro h1 { font-size: 43px; font-weight: 700; line-height: 1.25; margin-bottom: 22px; }
+.produc-auth-intro h1 > span { color: #ff8c31; }
+.produc-auth-intro h1 > small { font-size: .62em; font-weight: 400; }
+.produc-auth-intro > p { font-size: 16px; line-height: 1.6; color: #e5f0f3; }
+.produc-auth-features { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 65px; max-width: 560px; }
+.produc-auth-features > div { border: 1px solid #247086; background: #10596e; border-radius: 15px; padding: 20px; }
+.produc-auth-features .portal-icon { display: block; color: #ffb044; width: 30px; height: 30px; margin-bottom: 15px; }
+.produc-auth-features strong, .produc-auth-features small { display: block; }
+.produc-auth-features strong { font-size: 14px; margin-bottom: 10px; }
+.produc-auth-features small { font-size: 12px; line-height: 1.5; color: #c5dce4; }
+.produc-auth-card { background: #fff; border-radius: 18px; padding: 45px 34px 32px; width: 100%; min-height: 620px; display: flex; flex-direction: column; justify-content: center; }
+.auth-brand { align-self: center; margin-bottom: 55px; }
+.auth-brand .produc-mascot { color: #597b90; width: 38px; height: 60px; }
+.produc-auth-card h2 { font-size: 17px; margin: 0 0 8px; font-weight: 500; }
+.auth-card-description { font-size: 12px; color: #64717d; margin: 0 0 25px; }
+.produc-auth-card .form-stack { gap: 18px; }
+.produc-auth-card .field label { font-size: 12px; font-weight: 400; margin-bottom: 8px; }
+.produc-auth-card .field input { background: #f1f1f3; border: 1px solid transparent; border-radius: 3px; padding: 12px; font-size: 12px; }
+.produc-auth-card .field input:focus { border-color: #087df6; outline: 2px solid #087df620; }
+.produc-auth-card .auth-submit { background: #087df6; border-radius: 4px; color: #fff; font-size: 13px; margin-top: 8px; }
+.produc-auth-card .auth-submit:hover { background: #0068dc; }
+.produc-auth-card .auth-switch { text-align: center; font-size: 12px; margin: 32px 0 0; color: #414b55; }
+.produc-auth-card .auth-switch a { color: #0876e4; font-weight: 400; }
+.auth-demo { margin-top: 28px; border-top: 1px solid #e4e7ee; padding-top: 15px; font-size: 11px; color: #64717d; }
+.auth-demo summary { cursor: pointer; }
+.auth-demo p { font-size: 12px; line-height: 1.7; margin-top: 14px; overflow-wrap: anywhere; }
+.produc-signup-page { grid-template-columns: minmax(0,420px); justify-content: center; }
+.produc-signup-page .produc-auth-card { min-height: 0; padding-top: 30px; }
+.produc-signup-page .auth-brand { margin-bottom: 30px; }
+.produc-signup-page h1 { font-size: 16px; line-height: 1.5; margin-bottom: 28px; }
+.produc-signup-page h1 span { font-size: 13px; }
+.produc-signup-page .form-stack { gap: 14px; }
+@media (min-width: 1600px) {
+  .portal-header-inner { min-height: 96px; }
+  .portal-nav { min-height: 90px; }
+  .reference-dashboard > section { min-height: 570px; }
+  .reference-page-panel { min-height: 760px; padding-top: 45px; }
+  .reference-student-card { padding: 30px 40px; }
+  .reference-orientation-groups { margin-top: 75px; }
+  .orientation-group summary { padding: 30px 45px; }
+}
+@media (max-width: 1200px) {
+  .portal-container, .portal-header-inner { width: 92%; }
+  .portal-nav-link { padding-inline: 13px; font-size: 13px; }
+  .student-portal .portal-nav { padding-inline: 5px; gap: 0; }
+  .student-portal .portal-nav-link { padding-inline: 10px; font-size: 12px; gap: 6px; }
+  .student-portal .portal-nav-link .portal-icon { width: 18px; height: 18px; }
+  .reference-page-panel { padding-inline: 5%; }
+  .reference-student-card { gap: 18px; grid-template-columns: minmax(0,1fr) 110px auto; padding: 24px; }
+  .produc .works-library-layout { grid-template-columns: 190px minmax(0,1fr); }
+  .produc .student-ai-reading { grid-column: 1 / -1; }
+  .produc .meetings-workspace { grid-template-columns: 260px minmax(0,1fr); }
+  .produc .meeting-summary-column { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .produc-auth-page { grid-template-columns: minmax(0,1fr) 380px; gap: 6%; }
+  .produc-auth-intro h1 { font-size: 36px; }
+  .produc-auth-features { gap: 12px; }
+  .produc-signup-page { grid-template-columns: minmax(0,420px); }
+}
+@media (max-width: 800px) {
+  .portal-header-inner { min-height: 68px; }
+  .portal-container, .portal-header-inner { width: calc(100% - 32px); }
+  .portal-nav, .student-portal .portal-nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 0; min-height: 70px; padding: 6px 0; border-radius: 0 0 12px 12px; }
+  .portal-nav-link, .student-portal .portal-nav-link { flex-direction: column; gap: 6px; white-space: nowrap; padding: 12px 2px; font-size: 11px; }
+  .portal-account { gap: 12px; font-size: 11px; }
+  .portal-user-icon { display: none; }
+  .produc-brand { font-size: 14px; }
+  .produc-brand .produc-mascot { height: 45px; width: 30px; }
+  .portal-stats { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; padding: 22px; }
+  .portal-stats h2 { font-size: 12px; }
+  .reference-dashboard, .dashboard-secondary-grid { grid-template-columns: 1fr; }
+  .reference-dashboard > section { min-height: 310px; }
+  .reference-student-card { grid-template-columns: minmax(0,1fr) auto; gap: 20px 14px; border-radius: 18px; padding: 22px; }
+  .reference-student-info { grid-column: 1 / -1; }
+  .reference-performance { text-align: left; }
+  .reference-performance strong { display: inline; font-size: 14px; margin-left: 5px; }
+  .reference-page-panel { min-height: 570px; padding: 28px 22px; }
+  .reference-page-heading h1 { font-size: 22px; line-height: 1.4; }
+  .reference-page-heading p { font-size: 12px; }
+  .reference-orientation-groups { margin-top: 40px; }
+  .orientation-group summary { padding: 22px; font-size: 15px; }
+  .orientation-group-content { padding-inline: 22px; }
+  .orientation-group .orange-button { font-size: 12px; padding: 9px 15px; }
+  .portal-footer { font-size: 10px; line-height: 1.5; }
+  .portal-footer span:last-child { text-align: right; }
+  .produc .student-dashboard-grid, .produc .review-workspace, .produc .analysis-workspace, .produc .agenda-page-grid, .produc .meetings-workspace { grid-template-columns: minmax(0,1fr); }
+  .produc .student-dashboard-aside { display: grid; grid-template-columns: 1fr 1fr; }
+  .produc .student-ai-note { grid-column: 1 / -1; }
+  .produc .student-welcome { align-items: flex-start; padding: 24px; flex-direction: column; gap: 18px; }
+  .produc .student-welcome h1 { font-size: 23px; }
+  .produc .works-library-layout { grid-template-columns: minmax(0,1fr); }
+  .produc .student-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .produc .metric-card { padding: 14px 12px; }
+  .produc .metric-head { font-size: 12px; }
+  .produc .metric-glyph { display: none; }
+  .produc .metric-foot { font-size: 10px; line-height: 1.5; }
+  .produc .metric-card > strong { font-size: 22px; }
+  .produc .meeting-summary-column { grid-column: auto; }
+  .produc-auth-page { width: min(550px,calc(100% - 36px)); grid-template-columns: minmax(0,1fr); gap: 36px; padding: 40px 0; }
+  .produc-auth-intro { padding-left: 0; }
+  .auth-cap { width: 50px; height: 50px; margin-bottom: 18px; }
+  .auth-cap .portal-icon { width: 30px; height: 30px; }
+  .produc-auth-intro h1 { font-size: 32px; margin-bottom: 16px; }
+  .produc-auth-intro > p { font-size: 14px; }
+  .produc-auth-features { margin-top: 25px; }
+  .produc-auth-features > div { padding: 16px; }
+  .produc-auth-features strong { font-size: 12px; }
+  .produc-auth-features small { font-size: 11px; }
+  .desktop-break { display: none; }
+  .produc-auth-card { min-height: 0; padding: 30px 26px; }
+  .auth-brand { margin-bottom: 35px; }
+  .produc-signup-page { max-width: 420px; }
+}
+@media (max-width: 480px) {
+  .portal-account > span:first-child { max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lavender-panel { border-radius: 15px; }
+  .reference-page-panel { padding: 24px 16px; }
+  .reference-panel-heading h2 { font-size: 16px; }
+  .reference-page-heading { gap: 12px; }
+  .reference-page-heading h1 { font-size: 20px; }
+  .reference-page-heading p { max-width: 235px; }
+  .reference-student-card { padding: 20px 16px; }
+  .produc .orange-button { padding: 9px 14px; font-size: 12px; }
+  .reference-performance { font-size: 11px; }
+  .reference-orientation-groups { gap: 15px; }
+  .orientation-group summary { padding: 20px 17px; }
+  .orientation-group-content { padding-inline: 17px; }
+  .group-student-link { flex-wrap: wrap; }
+  .group-student-link > div { flex-basis: 100%; }
+  .produc .student-metrics { grid-template-columns: minmax(0,1fr); padding: 0 20px; }
+  .produc .metric-card { padding: 18px 0; border-bottom: 1px solid #ffffff24; }
+  .produc .metric-card:last-child { border-bottom: 0; }
+  .produc .metric-glyph { display: grid; }
+  .produc .student-dashboard-aside, .produc .meeting-summary-column { display: flex; flex-direction: column; }
+  .produc .student-card, .produc .student-ai-reading { padding: 20px; }
+  .produc .student-card-heading { flex-wrap: wrap; }
+  .produc .student-card-heading h2 { font-size: 17px; }
+  .produc .research-step strong { font-size: 10px; }
+  .produc .research-step small { font-size: 8px; }
+  .produc .document-status { max-width: 100px; white-space: normal; text-align: center; }
+  .produc .analysis-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .produc .work-toolbar, .produc .work-toolbar-actions { align-items: flex-start; flex-wrap: wrap; }
+  .produc .paper-preview { padding: 25px; }
+  .chat-demo-badge { font-size: 9px; padding: 6px 8px; }
+  .chat-conversation { padding: 20px 16px; }
+  .chat-greeting { gap: 9px; }
+  .chat-shortcuts a { font-size: 11px; }
+  .chat-composer-actions { align-items: flex-end; }
+  .chat-composer-actions p { max-width: 150px; line-height: 1.5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .produc *, .produc *::before, .produc *::after { scroll-behavior: auto; transition: none; animation: none; }
+}

@@ -1,4 +1,4 @@
-<% content_for :title, "Agenda · OrientaAI" %>
+<% content_for :title, "Agenda · PRODUC" %>
 <% content_for :section_name, "Agenda" %>
 <section class="student-welcome compact-student-welcome"><div><span class="eyebrow student-eyebrow">AGENDA DA PESQUISA</span><h1>Um passo de cada vez.</h1><p>Organize entregas, reuniões e marcos importantes da sua pesquisa.</p></div><%= link_to "Ver reuniões →", student_meetings_path, class: "student-outline-button" %></section>
 <div class="agenda-page-grid"><section class="student-card agenda-task-card"><div class="student-card-heading"><div><span class="eyebrow student-eyebrow">PRÓXIMOS PASSOS</span><h2>Plano de trabalho</h2></div><span class="tiny-count"><%= @tasks.where(status: %w[pending in_progress]).count %> em aberto</span></div>

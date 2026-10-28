@@ -1,13 +1,19 @@
-<% content_for :title, "Orientações · OrientaAI" %>
-<section class="page-heading"><div><span class="eyebrow">ACOMPANHAMENTO ACADÊMICO</span><h1>Orientações</h1><p>Um espaço de contexto, encontros e próximos passos para cada pesquisa.</p></div><%= link_to "+  Novo aluno", new_student_path, class: "button primary" %></section>
-<div class="orientation-grid">
-  <% @orientations.each do |orientation| %>
-    <%= link_to orientation_path(orientation), class: "orientation-card" do %>
-      <div class="orientation-card-top"><div class="avatar"><%= initials(orientation.student.name) %></div><span class="status-pill <%= orientation.status %>"><i></i><%= formatted_status(orientation.status) %></span></div>
-      <span class="program-tag"><%= orientation.student.program %></span>
-      <h2><%= orientation.student.name %></h2><p class="orientation-title"><%= orientation.title %></p>
-      <div class="orientation-card-bottom"><span>◷ <%= orientation.next_meeting_at ? l(orientation.next_meeting_at, format: "%d %b · %H:%M") : "Sem próximo encontro" %></span><span>Ver acompanhamento →</span></div>
+<% content_for :title, "Orientações · PRODUC" %>
+<section class="lavender-panel reference-page-panel">
+  <div class="reference-page-heading"><div><h1>Gerencie suas orientações</h1><p>Crie, edite e organize suas orientações.</p></div></div>
+  <div class="reference-orientation-groups">
+    <% [["Mestrandos", "Mestrado"], ["Doutorandos", "Doutorado"]].each do |label, program| %>
+      <% group = @orientations.select { |orientation| orientation.student.program == program } %>
+      <details class="orientation-group">
+        <summary><span><%= label %></span><span class="button orange-button"><%= portal_icon(:edit) %>Editar</span></summary>
+        <div class="orientation-group-content">
+          <% group.each do |orientation| %>
+            <%= link_to orientation_path(orientation), class: "group-student-link" do %><div><strong><%= orientation.student.name %></strong><small><%= orientation.title %></small></div><span class="status-pill <%= orientation.status %>"><%= formatted_status(orientation.status) %></span><span aria-hidden="true">→</span><% end %>
+          <% end %>
+          <% if group.empty? %><p class="group-empty">Nenhuma orientação de <%= program.downcase %> cadastrada.</p><% end %>
+          <%= link_to "＋ Cadastrar aluno", new_student_path, class: "text-link" %>
+        </div>
+      </details>
     <% end %>
-  <% end %>
-</div>
-<% if @orientations.empty? %><section class="panel empty-state"><span>▤</span><strong>Nenhuma orientação cadastrada ainda</strong><p>Cadastre um aluno para abrir o primeiro acompanhamento.</p><%= link_to "Cadastrar aluno", new_student_path, class: "button primary" %></section><% end %>
+  </div>
+</section>
