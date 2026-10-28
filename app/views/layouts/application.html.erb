@@ -7,7 +7,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= favicon_link_tag "produc-robot.png", type: "image/png" %>
     <%= stylesheet_link_tag "application", "produc", "data-turbo-track": "reload" %>
   </head>
   <body class="produc <%= current_user ? 'workspace-page' : 'authentication-page' %>">
