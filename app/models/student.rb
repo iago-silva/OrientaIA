@@ -1,7 +1,7 @@
 class Student < ApplicationRecord
   has_secure_password validations: false
 
-  PROGRAMS = ["Mestrado", "Doutorado"].freeze
+  PROGRAMS = [ "Mestrado", "Doutorado" ].freeze
 
   belongs_to :professor
   has_one :orientation, dependent: :destroy

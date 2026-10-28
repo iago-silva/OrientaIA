@@ -12,6 +12,6 @@ class CreateMeetings < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :meetings, [:orientation_id, :external_id], unique: true
+    add_index :meetings, [ :orientation_id, :external_id ], unique: true
   end
 end

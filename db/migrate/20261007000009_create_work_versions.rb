@@ -9,6 +9,6 @@ class CreateWorkVersions < ActiveRecord::Migration[8.1]
       t.string :uploaded_by, null: false, default: "student"
       t.timestamps
     end
-    add_index :work_versions, [:academic_work_id, :version_number], unique: true
+    add_index :work_versions, [ :academic_work_id, :version_number ], unique: true
   end
 end

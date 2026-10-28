@@ -10,6 +10,6 @@ class CreateReviewComments < ActiveRecord::Migration[8.1]
       t.string :author_name, null: false, default: "Orientadora"
       t.timestamps
     end
-    add_index :review_comments, [:academic_work_id, :status]
+    add_index :review_comments, [ :academic_work_id, :status ]
   end
 end

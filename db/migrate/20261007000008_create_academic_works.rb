@@ -10,6 +10,6 @@ class CreateAcademicWorks < ActiveRecord::Migration[8.1]
       t.datetime :submitted_at
       t.timestamps
     end
-    add_index :academic_works, [:student_id, :title], unique: true
+    add_index :academic_works, [ :student_id, :title ], unique: true
   end
 end

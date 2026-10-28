@@ -13,6 +13,6 @@ class CreateAbntChecks < ActiveRecord::Migration[8.1]
       t.datetime :checked_at
       t.timestamps
     end
-    add_index :abnt_checks, [:academic_work_id, :code], unique: true
+    add_index :abnt_checks, [ :academic_work_id, :code ], unique: true
   end
 end

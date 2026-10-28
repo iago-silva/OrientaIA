@@ -38,7 +38,12 @@ jobs:
           bundler-cache: true
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
+        if: ${{ hashFiles('config/importmap.rb') != '' }}
         run: bin/importmap audit
+
+      - name: Report JavaScript audit availability
+        if: ${{ hashFiles('config/importmap.rb') == '' }}
+        run: echo "::notice::No importmap configured; this portal has no JavaScript dependencies to audit."
 
   lint:
     runs-on: ubuntu-24.04
@@ -116,11 +121,16 @@ jobs:
           bundler-cache: true
 
       - name: Run System Tests
+        if: ${{ hashFiles('test/system/**/*_test.rb') != '' }}
         env:
           RAILS_ENV: test
           # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test:system
+
+      - name: Report system test availability
+        if: ${{ hashFiles('test/system/**/*_test.rb') == '' }}
+        run: echo "::notice::No system tests exist yet; integration tests run in the test job."
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4

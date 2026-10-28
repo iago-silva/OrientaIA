@@ -10,6 +10,6 @@ class CreateOrientations < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :orientations, [:professor_id, :student_id], unique: true
+    add_index :orientations, [ :professor_id, :student_id ], unique: true
   end
 end

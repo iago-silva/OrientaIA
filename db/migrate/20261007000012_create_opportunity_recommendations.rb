@@ -14,6 +14,6 @@ class CreateOpportunityRecommendations < ActiveRecord::Migration[8.1]
       t.string :status, null: false, default: "recommended"
       t.timestamps
     end
-    add_index :opportunity_recommendations, [:student_id, :title], unique: true
+    add_index :opportunity_recommendations, [ :student_id, :title ], unique: true
   end
 end
