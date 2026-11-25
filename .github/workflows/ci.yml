@@ -133,7 +133,7 @@ jobs:
         run: echo "::notice::No system tests exist yet; integration tests run in the test job."
 
       - name: Keep screenshots from failed system tests
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: screenshots
