@@ -6,6 +6,18 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_argument("disable-dev-shm-usage")
   end
 
+  def navigate_and_wait
+    previous_document = page.evaluate_script("performance.timeOrigin")
+    yield
+
+    # Avoid holding a DOM element across navigation: recent Chrome versions
+    # can report detached nodes as UnknownError instead of StaleElementReferenceError.
+    wait = Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time)
+    wait.until do
+      page.evaluate_script("performance.timeOrigin !== #{previous_document.to_json} && document.readyState === 'complete'")
+    end
+  end
+
   def after_teardown
     # A fresh browser also isolates storage on recent Chrome versions, which
     # reject the wildcard origin used by Capybara 3.40's storage reset.

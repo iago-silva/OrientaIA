@@ -1,1 +1,20 @@
-<section class="page-heading"><div><span class="eyebrow">REGISTRO DE SUPERVISÃO E VÍNCULO À MATRIZ</span><h1>Cada intervenção deixa contexto.</h1><p>Revisão, autoria, versões e decisões preservadas para <%= @record.title %>.</p></div><%= link_to "Voltar à revisão",review_record_path(@record),class:"button outline" %></section><div class="notice-box"><strong><%= label_for_status(@record.status) %> · v<%= @record.revision %></strong><p>Responsável: Profa. <%= current_professor.name %>. <%= @record.published_at ? 'Publicação explícita registrada.' : 'Nenhum conteúdo foi publicado.' %></p></div><%= render "trail",record:@record %><section class="card" style="margin-top:20px"><h2>Do risco ao controle de interface</h2><div class="table-wrap"><table class="data-table"><thead><tr><th>RISCO / REQUISITO</th><th>CONTROLE</th><th>MEDIDA CORRESPONDENTE</th></tr></thead><tbody><% [['E2 · SYS10 / SYS01','Aviso + entendimento obrigatório','Alerta contextual, confirmação explícita e registro da ciência.'],['R5 · ALU05 / PROF04','Fonte + aviso de incerteza','Conferência registrada e material de origem ao lado da proposta.'],['R7 · SYS09 / SYS04','Procedência + autoria + critério','Proposta original preservada e edição docente versionada.'],['R12 · PROF06 / SYS02','Editar, rejeitar, contestar e reprocessar','Intervenções antes da aprovação, com justificativa e trilha.'],['E3 · PROF06 / SYS02','Aprovação por item + confirmação','Escopo nominal e versão verificada no servidor.'],['R15 · SYS02 / PROF06','Bloqueio + marca de pendência','Conteúdo reservado à orientadora até aprovação.'],['R16 · SYS01 / SYS02','Comparação + trilha + fluxo obrigatório','Edições invalidam a seleção anterior.'],['R10 · SYS05 / SYS06','Processamento sensível somente local','Sem fallback externo. Solicitações ficam pendentes.']].each do |row| %><tr><td class="teal"><%= row[0] %></td><td><strong><%= row[1] %></strong></td><td><%= row[2] %></td></tr><% end %></tbody></table></div></section><div class="notice-box cream" style="margin-top:20px"><strong>O que este protótipo não comprova</strong><p>O MVP não executa RAG nem inferência de LLM. As amostras são demonstrativas; infraestrutura de processamento e políticas institucionais precisam de configuração e validação próprias.</p></div>
+<section class="page-heading">
+  <div>
+    <span class="eyebrow">REGISTRO DE SUPERVISÃO</span>
+    <h1>Histórico de decisões</h1>
+    <p>Revisão, autoria, versões e decisões preservadas para <%= @record.title %>.</p>
+  </div>
+  <%= link_to "Voltar à revisão", review_record_path(@record), class: "button outline" %>
+</section>
+
+<div class="notice-box">
+  <strong><%= label_for_status(@record.status) %> · v<%= @record.revision %></strong>
+  <p>Responsável: Profa. <%= current_professor.name %>. <%= @record.published_at ? 'Publicação explícita registrada.' : 'Nenhum conteúdo foi publicado.' %></p>
+</div>
+
+<%= render "trail", record: @record %>
+
+<div class="notice-box cream" style="margin-top:20px">
+  <strong>O que este protótipo não comprova</strong>
+  <p>O MVP não executa RAG nem inferência de LLM. As amostras são demonstrativas; infraestrutura de processamento e políticas institucionais precisam de configuração e validação próprias.</p>
+</div>
