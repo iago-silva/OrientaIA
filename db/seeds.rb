@@ -1,245 +1,70 @@
-professor = Professor.find_or_initialize_by(email: "cynara@produc.demo")
-professor.assign_attributes(
-  name: "Cynara Carvalho",
-  institution: "PPGEC · Portal de demonstração",
-  password: "produc2026",
-  password_confirmation: "produc2026"
-)
-professor.save!
-
-sample_students = [
-  {
-    name: "Ana Luiza Ferreira", email: "ana.ferreira@aluno.demo", program: "Doutorado",
-    research_area: "Interação Humano-Computador", project_title: "Apoio inteligente à orientação acadêmica",
-    research_problem: "Como ferramentas conversacionais podem apoiar o acompanhamento de pesquisas de pós-graduação sem substituir a relação entre orientador e orientando?",
-    objectives: "Investigar necessidades de professores e estudantes; prototipar fluxos de registro; avaliar a utilidade dos resumos e próximos passos.",
-    methodology: "Estudo de caso com entrevistas semiestruturadas, prototipação participativa e avaliação qualitativa.", progress: 72,
-    next_meeting_in: 2, next_hour: 14, tasks: [ [ "Revisar roteiro das entrevistas", 3, "Conferir alinhamento entre perguntas e objetivos específicos." ], [ "Enviar versão do capítulo de método", 8, "Incluir os critérios de seleção dos participantes." ] ],
-    meeting_title: "Delimitação dos critérios de avaliação", meeting_summary: "A conversa definiu os critérios para avaliar clareza, continuidade e utilidade dos registros de orientação.",
-    next_steps: "Revisar o roteiro de entrevistas e enviar a nova versão antes do próximo encontro."
-  },
-  {
-    name: "Marcos Vinícius Rocha", email: "marcos.rocha@aluno.demo", program: "Mestrado",
-    research_area: "Engenharia de Software", project_title: "Práticas de documentação em equipes de software",
-    research_problem: "Quais fatores influenciam a manutenção de documentação útil em equipes de desenvolvimento ágil?",
-    objectives: "Mapear práticas de documentação; identificar barreiras de adoção; propor recomendações aplicáveis a equipes de pequeno porte.",
-    methodology: "Revisão de literatura e estudo exploratório com entrevistas e análise temática.", progress: 46,
-    next_meeting_in: 4, next_hour: 10, tasks: [ [ "Refinar pergunta de pesquisa", 2, "Trazer duas versões alternativas para discutirmos." ], [ "Mapear estudos recentes", 12, "Registrar bases, strings e critérios de inclusão." ] ],
-    meeting_title: "Refinamento da pergunta de pesquisa", meeting_summary: "Reduzimos o escopo para práticas de documentação mantidas junto ao código e aos fluxos de trabalho.",
-    next_steps: "Propor duas formulações da pergunta e iniciar o protocolo de busca."
-  },
-  {
-    name: "Júlia Mendes Costa", email: "julia.mendes@aluno.demo", program: "Mestrado",
-    research_area: "Educação em Engenharia", project_title: "Estratégias de aprendizagem ativa em disciplinas de computação",
-    research_problem: "Que condições favorecem a participação de estudantes em atividades de aprendizagem ativa nos cursos de computação?",
-    objectives: "Descrever estratégias adotadas; compreender a experiência dos estudantes; analisar fatores de participação.",
-    methodology: "Estudo qualitativo com observação de aulas, diário de campo e grupos focais.", progress: 28,
-    next_meeting_in: 7, next_hour: 15, tasks: [ [ "Organizar referências do referencial", 5, "Agrupar por conceito e registrar sínteses curtas." ] ],
-    meeting_title: "Estrutura inicial do referencial", meeting_summary: "Agrupamos as referências em participação, desenho instrucional e aprendizagem ativa.",
-    next_steps: "Montar um mapa conceitual e anotar lacunas da revisão."
-  },
-  {
-    name: "Pedro Henrique Alves", email: "pedro.alves@aluno.demo", program: "Doutorado",
-    research_area: "Sistemas de Informação", project_title: "Colaboração e conhecimento em ambientes digitais",
-    research_problem: "Como a organização do conhecimento em ambientes digitais afeta a colaboração em grupos de pesquisa?",
-    objectives: "Compreender práticas colaborativas; analisar mecanismos de compartilhamento; propor um modelo conceitual.",
-    methodology: "Estudo de casos múltiplos com análise documental e entrevistas com pesquisadores.", progress: 61,
-    next_meeting_in: nil, next_hour: nil, tasks: [ [ "Consolidar categorias de análise", 10, "Rever as categorias emergentes nas entrevistas-piloto." ] ],
-    meeting_title: "Discussão das entrevistas-piloto", meeting_summary: "As entrevistas indicam diferenças entre compartilhamento de arquivos e construção coletiva de conhecimento.",
-    next_steps: "Consolidar as categorias de análise antes de iniciar a próxima rodada."
-  }
-]
-
-sample_students.each do |attributes|
-  student = professor.students.find_or_initialize_by(email: attributes[:email])
-  student.assign_attributes(attributes.except(:next_meeting_in, :next_hour, :tasks, :meeting_title, :meeting_summary, :next_steps))
-  student.save!
-
-  orientation = professor.orientations.find_or_initialize_by(student: student)
-  orientation.assign_attributes(
-    title: student.project_title,
-    status: "active",
-    next_meeting_at: attributes[:next_meeting_in] && (Time.current + attributes[:next_meeting_in].days).change(hour: attributes[:next_hour], min: 0)
-  )
-  orientation.save!
-
-  attributes[:tasks].each do |title, days, description|
-    task = orientation.tasks.find_or_initialize_by(title: title)
-    task.assign_attributes(description: description, due_on: Date.current + days.days, status: "pending", source: "web")
-    task.save!
-  end
-
-  meeting = orientation.meetings.find_or_initialize_by(external_id: "seed-#{student.id}")
-  meeting.assign_attributes(
-    held_at: Time.current - 2.days,
-    title: attributes[:meeting_title],
-    summary: attributes[:meeting_summary],
-    next_steps: attributes[:next_steps],
-    source: "web"
-  )
-  meeting.save!
-
-  feedback_text = "Boa evolução. Mantenha os objetivos alinhados à pergunta de pesquisa e registre as decisões de método."
-  orientation.feedbacks.find_or_create_by!(content: feedback_text) do |feedback|
-    feedback.author_name = professor.name
-    feedback.source = "web"
+unless Professor.exists?(email: "helena@orienta.demo")
+  Professor.transaction do
+    helena = Professor.create!(name: "Helena Duarte", email: "helena@orienta.demo", password: "pesquisa2026", institution: "Mestrado em Educação")
+    marina = helena.students.create!(name: "Marina Costa", email: "marina@orienta.demo", password: "pesquisa2026", program: "Mestrado", research_area: "Educação e tecnologias", project_title: "Inteligência artificial na formação docente: práticas e percepções no ensino superior", progress: 60, training_step: 3, training_completed_at: Time.zone.parse("2026-09-01 10:00"), research_problem: "Como a inteligência artificial transforma as práticas de formação docente e a autonomia dos professores?", objectives: "Compreender as práticas, percepções e limites da IA na formação docente no ensino superior.", methodology: "Pesquisa qualitativa com entrevistas, análise documental e análise temática.")
+    orientation = marina.create_orientation!(professor: helena, title: marina.project_title, next_meeting_at: Time.zone.parse("2026-10-06 14:00"), notes: "Relacionar os eixos provisórios ao referencial e aos trechos do material empírico.")
+    helena.students.create!(name: "Lara Almeida", email: "nova.aluna@orienta.demo", password: "pesquisa2026", program: "Mestrado", research_area: "Educação e tecnologias", project_title: "Formação docente e autonomia acadêmica", active: false, progress: 0)
+    text = "A inserção da inteligência artificial no ensino superior amplia o debate sobre as competências necessárias à formação de professores. Para além do domínio instrumental, seu uso demanda reflexão sobre o contexto pedagógico e as decisões tomadas em sala de aula.\n\nNesse sentido, o letramento digital pode ser compreendido como um conjunto de habilidades para utilizar recursos tecnológicos. A formação docente deve acompanhar essas transformações, incorporando novas ferramentas às práticas de ensino.\n\nEsta pesquisa investiga como docentes percebem a presença da IA em seus processos formativos. Busca-se compreender não apenas a adoção de ferramentas, mas também os sentidos atribuídos a elas e as tensões entre inovação, autonomia e responsabilidade."
+    works = []
+    [ [ "Capítulo 2 · Referencial teórico", "Capítulo", 3 ], [ "Capítulo 3 · Metodologia", "Capítulo", 2 ], [ "Dissertação", "Dissertação", 3 ] ].each do |title, category, count|
+      work = marina.academic_works.create!(title: title, category: category, status: "reviewed", current_version: count, manuscript: text)
+      count.times do |index|
+        version = work.work_versions.create!(version_number: index + 1, label: "Versão #{index + 1}", change_note: [ "Primeira estrutura do capítulo", "Amplia diálogo entre autores", "Inclui debate sobre letramento digital" ][index], status: index == count - 1 ? "approved" : "received", created_at: Time.zone.parse("2026-09-#{15 + index * 7} 10:15"))
+        version.file.attach(io: StringIO.new(DemoDocument.pdf(title, text)), filename: "#{title.parameterize}_v#{index + 1}.pdf", content_type: "application/pdf")
+      end
+      works << work
+    end
+    work = works.first
+    comments = [ [ "Argumentação", "Amplie o conceito de letramento", "O trecho limita o conceito ao uso de ferramentas. Como a dimensão crítica se relaciona à sua pergunta?" ], [ "Coerência", "Conecte teoria e pesquisa", "Explique como os conceitos desta seção sustentam suas categorias de análise." ], [ "Clareza", "Delimite ‘transformações’", "Indique quais mudanças nas práticas docentes estão sendo discutidas." ] ]
+    12.times do |index|
+      section, title, content = comments[index % 3]
+      work.review_comments.create!(work_version: work.latest_version, section: section, content: "#{title}\n#{content}", anchor_text: "A formação docente envolve práticas que articulam conhecimentos, experiências e reflexão sobre o ensino.", author_name: helena.name, status: index < 3 ? "open" : "resolved", published_at: Time.zone.parse("2026-10-01 10:15"))
+    end
+    work_review = ReviewRecord.create!(orientation: orientation, work_version: work.latest_version, title: "Referencial teórico", kind: "work", revision: 3, original_content: { summary: "Boa base conceitual. O próximo avanço é conectar os autores à sua pergunta de pesquisa.", next_steps: "Retome os comentários publicados e revise o capítulo.", transcript: "" }, evidence: "Capítulo 2, páginas 12–13; texto fornecido pela aluna.")
+    work_review.acknowledge!(helena)
+    work_review.mark_source!(helena)
+    work_review.select_items!(helena, %w[summary next_steps])
+    work_review.publish!(helena, expected_revision: 3, confirmations: %w[read justification transcript scope].index_with { "1" })
+    [ [ "Teoria e categorias de análise", "2026-09-29 14:00" ], [ "Revisão da metodologia", "2026-09-22 14:00" ], [ "Letramento digital crítico", "2026-09-15 10:00" ], [ "Plano de qualificação", "2026-09-08 14:00" ] ].each_with_index do |(title, time), index|
+      meeting = orientation.meetings.create!(title: title, held_at: Time.zone.parse(time), source: "web", transcript: "Helena: Vamos testar esses eixos no quadro piloto antes de fechar as categorias.\nMarina: Vou preparar o quadro com definições e trechos do material.\nHelena: Retomamos o quadro na próxima reunião.", summary: index.zero? ? "A reunião definiu três categorias finais: uso instrumental, reflexão crítica e autonomia docente. A literatura confirma a adequação do quadro." : "Revisamos o percurso da pesquisa e discutimos os próximos passos.", next_steps: "Preparar quadro piloto com definições e trechos do material para o próximo encontro.", external_id: "demo-reuniao-#{index + 1}")
+      review = meeting.review_record
+      review.event!(helena, "created", { source: "Amostra demonstrativa, sem LLM conectado" })
+      if index.zero?
+        review.update!(evidence: "Anotações da reunião ‘Teoria e categorias de análise’, 29 set. 2026. Trecho 09:08–09:32: ‘Vamos testar esses eixos no quadro piloto antes de fechar as categorias.’ Capítulo 2, páginas 12–13. Critério: fidelidade ao material e distinção entre hipótese e decisão.")
+        review.save_edit!(helena, { summary: "Foram discutidos eixos provisórios de análise: uso instrumental, reflexão crítica e autonomia docente. O quadro ainda precisa ser confrontado com o referencial e com o material empírico.", next_steps: "Marina preparará um quadro piloto com definições e trechos do material. Retomar com a orientadora em 6 out." }, "Retirei a afirmação de validação: os eixos ainda são provisórios. Marina, relacione cada definição a um trecho do material antes de ampliarmos a análise.")
+      elsif index < 3
+        review.acknowledge!(helena)
+        review.mark_source!(helena)
+        review.select_items!(helena, %w[summary next_steps transcript])
+        review.publish!(helena, expected_revision: review.revision, confirmations: %w[read justification transcript scope].index_with { "1" })
+      else
+        review.reject!(helena, "Somente anotações de pauta. Nenhuma síntese automática a publicar.")
+      end
+      [ marina, helena ].each do |person|
+        consent = orientation.consents.create!(meeting: meeting, participant: person, purpose: "recording", granted: true, accepted_at: Time.zone.parse(time) - 2.minutes, scope: "Áudio e transcrição da reunião #{title}; memória da orientação; sem envio externo.")
+        consent.consent_events.create!(action: "granted", actor: person.name, term_version: "1.0", scope: consent.scope)
+      end
+    end
+    feedback = orientation.feedbacks.create!(author_name: helena.name, content: "Plano da discussão dos resultados", source: "web")
+    feedback.review_record.event!(helena, "created", { note: "Rascunho aguardando revisão humana" })
+    [ [ "Revisar 3 comentários", "Referencial teórico · prioridade", "2026-10-05" ], [ "Conferir 8 achados ABNT", "Dissertação · versão 3", "2026-10-06" ], [ "Preparar pauta da reunião", "Quadro piloto de análise", "2026-10-06" ] ].each do |title, description, due|
+      orientation.tasks.create!(title: title, description: description, due_on: Date.parse(due), status: "pending", source: "web")
+    end
+    orientation.orientation_messages.create!(author_name: marina.name, author_role: "student", content: "Anexei a versão 3 do capítulo 2 para discutirmos hoje.", created_at: Time.zone.parse("2026-09-29 13:40"))
+    orientation.orientation_messages.create!(author_name: helena.name, author_role: "professor", content: "Registrei os encaminhamentos. Vamos retomar o quadro na próxima reunião.", created_at: Time.zone.parse("2026-09-29 15:02"))
+    categories = [ [ "Estrutura do trabalho", 6 ], [ "Formatação", 5 ], [ "Citações", 9 ], [ "Referências", 4 ] ]
+    count = 0
+    categories.each do |category, quantity|
+      quantity.times do |index|
+        status = count < 16 ? "verified" : (count < 21 ? "suggestion" : "manual_review")
+        title = category == "Citações" && index == 5 ? "Citação longa sem destaque de recuo" : category == "Citações" && index == 6 ? "Citação direta sem indicação de página" : "#{category} · requisito #{index + 1}"
+        work.abnt_checks.create!(work_version: work.latest_version, code: "ABNT-#{count + 1}", category: category, title: title, status: status, page_number: 42 + index, section: "2.#{index + 1}", excerpt: "A formação docente envolve práticas que articulam conhecimentos, experiências e reflexão sobre o ensino…", recommendation: "Confira o texto e as regras no documento original. Para citações diretas longas, use recuo padronizado e identifique a página quando disponível. Não invente informação.")
+        count += 1
+      end
+    end
+    [ [ "Dossiê · IA e formação docente", "journal", "Revista Horizontes da Educação", "2026-10-30" ], [ "Congresso de Educação e Tecnologias", "congress", "Instituto Horizonte", "2026-10-15" ], [ "Seminário de Pesquisa em Formação Docente", "event", "Rede Formação em Diálogo", "2026-09-25" ] ].each_with_index do |(title, type, organization, deadline), index|
+      marina.opportunity_recommendations.create!(title: title, item_type: type, organization: "#{organization} · organização fictícia", subject: "Inteligência artificial · Letramento digital · Formação docente", deadline_on: Date.parse(deadline), description: "Chamada demonstrativa para discutir práticas e pesquisas de formação docente. Nenhuma submissão externa é realizada.", reason: "Dialoga com o tema da pesquisa e com os eixos de análise.", recommended_by: index == 2 ? helena.name : nil, acknowledged_at: index == 2 ? Time.zone.parse("2026-09-18 10:00") : nil, relevance: 98 - index * 5, status: "recommended")
+    end
   end
 end
-
-marina = professor.students.find_or_initialize_by(email: "marina.costa@orienta.demo")
-marina.assign_attributes(
-  name: "Marina Costa",
-  program: "Mestrado",
-  research_area: "Formação docente",
-  project_title: "Inteligência artificial na formação docente: práticas e percepções no ensino superior",
-  research_problem: "Como docentes do ensino superior percebem e incorporam ferramentas de inteligência artificial generativa em suas práticas de ensino?",
-  objectives: "Compreender práticas e percepções docentes sobre IA generativa; identificar oportunidades e preocupações; propor orientações para uso crítico no ensino superior.",
-  methodology: "Pesquisa qualitativa com entrevistas semiestruturadas, análise temática e revisão de literatura sobre formação docente e IA.",
-  progress: 58,
-  active: true,
-  password: "pesquisa2026"
-)
-marina.save!
-
-marina_orientation = professor.orientations.find_or_initialize_by(student: marina)
-marina_orientation.assign_attributes(
-  title: "Dissertação · Qualificação",
-  status: "active",
-  next_meeting_at: Time.current + 3.days,
-  notes: "Acompanhamento da escrita, revisão do referencial e preparação para qualificação."
-)
-marina_orientation.save!
-
-[
-  [ "Revisar comentário da orientadora", Date.current + 1.day, "Responder à observação pendente no referencial teórico." ],
-  [ "Conferir o checklist ABNT", Date.current + 3.days, "Revisar as sugestões antes de enviar a próxima versão." ],
-  [ "Preparar pauta da reunião", Date.current + 5.days, "Separar dúvidas sobre o recorte e a análise dos dados." ]
-].each do |title, due_on, description|
-  task = marina_orientation.tasks.find_or_initialize_by(title: title)
-  task.assign_attributes(due_on: due_on, description: description, status: "pending", source: "web")
-  task.save!
-end
-
-meeting = marina_orientation.meetings.find_or_initialize_by(external_id: "seed-marina-orienta-01")
-meeting.assign_attributes(
-  held_at: Time.current - 2.days,
-  title: "Teoria e categorias de análise",
-  transcript: "Marina: Reorganizei as categorias e percebi que os textos falam da IA como apoio à prática, mas também levantam preocupações.\n#{professor.name}: Ótimo. Vamos separar as oportunidades pedagógicas das questões de autoria e formação.\nMarina: Posso relacionar essa discussão com o capítulo de formação docente.\n#{professor.name}: Sim. Na próxima versão, inclua uma transição entre esses dois eixos.",
-  summary: "A conversa aprofundou a relação entre IA generativa, formação docente e práticas de ensino. A orientadora recomendou explicitar a ponte entre oportunidades pedagógicas e os desafios de autoria.",
-  next_steps: "Revisar a seção sobre formação docente; conectar as categorias de análise aos objetivos; trazer uma nova versão para a próxima reunião.",
-  source: "web"
-)
-meeting.save!
-
-[
-  [ "seed-marina-orienta-02", 8, "Delimitação do problema de pesquisa", "Marina: Ajustei a pergunta para olhar as práticas docentes no ensino superior.\n#{professor.name}: Esse recorte ficou mais claro. Traga a relação com a formação docente para o objetivo geral.", "A conversa delimitou o contexto do estudo e alinhou pergunta e objetivo geral.", "Revisar a redação dos objetivos específicos." ],
-  [ "seed-marina-orienta-03", 15, "Estratégia para revisão de literatura", "Marina: Separei os textos de formação docente e os de inteligência artificial.\n#{professor.name}: Organize a síntese por conceitos, e não por resumo de autor.", "A orientadora sugeriu integrar os estudos por conceitos e registrar os critérios de busca.", "Criar uma matriz de síntese da literatura." ],
-  [ "seed-marina-orienta-04", 22, "Plano de escrita da qualificação", "Marina: Gostaria de confirmar a ordem dos capítulos para a qualificação.\n#{professor.name}: Feche primeiro a pergunta, os objetivos e a metodologia; depois fazemos uma leitura completa.", "Foi definido um plano de escrita para fechar o texto de qualificação por etapas.", "Enviar a metodologia revisada antes de consolidar o documento completo." ]
-].each do |external_id, days_ago, title, transcript, summary, next_steps|
-  previous_meeting = marina_orientation.meetings.find_or_initialize_by(external_id: external_id)
-  previous_meeting.assign_attributes(held_at: Time.current - days_ago.days, title: title, transcript: transcript, summary: summary, next_steps: next_steps, source: "web")
-  previous_meeting.save!
-end
-
-works_data = [
-  {
-    title: "Capítulo 2 · Referencial teórico", category: "Capítulo 2", current_version: 3, status: "submitted",
-    manuscript: "2.2 Inteligência artificial e formação docente\n\nA inserção da inteligência artificial no ensino superior amplia o debate sobre as competências necessárias à formação de professores. Para além do domínio instrumental, seu uso demanda reflexão sobre autoria, avaliação e os sentidos atribuídos ao trabalho docente.\n\nEstudos recentes apontam que ferramentas generativas podem apoiar o planejamento e a produção de materiais, desde que seu uso esteja acompanhado de critérios transparentes e mediação pedagógica. Nesse cenário, a formação continuada assume papel central para que docentes compreendam tanto as possibilidades quanto as limitações dessas tecnologias.\n\nA literatura também destaca a importância de práticas institucionais que promovam o uso crítico e responsável da IA. Mais do que definir ferramentas, torna-se necessário discutir como elas se articulam aos objetivos de aprendizagem e às relações construídas em sala de aula.",
-    versions: [ [ 1, "Versão inicial", "Primeira organização do referencial", "approved" ], [ 2, "Revisão da orientadora", "Reorganização das seções e das categorias", "revision_requested" ], [ 3, "Revisada · atual", "Integração dos comentários sobre formação docente", "received" ] ]
-  },
-  {
-    title: "Capítulo 3 · Metodologia", category: "Capítulo 3", current_version: 2, status: "draft",
-    manuscript: "3 PROCEDIMENTOS METODOLÓGICOS\n\nEste capítulo apresenta a abordagem metodológica, o contexto da pesquisa e os procedimentos para produção e análise dos dados.\n\nA investigação adota abordagem qualitativa, adequada à compreensão das percepções e experiências dos participantes em seu contexto de atuação.",
-    versions: [ [ 1, "Rascunho", "Estrutura inicial", "received" ], [ 2, "Em preparação", "Versão em elaboração", "received" ] ]
-  },
-  {
-    title: "Dissertação completa", category: "Documento completo", current_version: 1, status: "draft",
-    manuscript: "INTELIGÊNCIA ARTIFICIAL NA FORMAÇÃO DOCENTE\n\nDocumento de trabalho · versão de acompanhamento\n\nEste arquivo reúne os capítulos produzidos até o momento e serve como espaço de consolidação da pesquisa.",
-    versions: [ [ 1, "Documento de trabalho", "Arquivo de consolidação", "received" ] ]
-  }
-]
-
-works_data.each do |attributes|
-  work = marina.academic_works.find_or_initialize_by(title: attributes[:title])
-  work.assign_attributes(category: attributes[:category], status: attributes[:status], current_version: attributes[:current_version], manuscript: attributes[:manuscript], submitted_at: attributes[:status] == "submitted" ? Time.current - 5.days : nil)
-  work.save!
-
-  attributes[:versions].each do |number, label, change_note, version_status|
-    version = work.work_versions.find_or_initialize_by(version_number: number)
-    version.assign_attributes(label: label, change_note: change_note, status: version_status, uploaded_by: "student")
-    version.save!
-  end
-end
-
-referential = marina.academic_works.find_by!(title: "Capítulo 2 · Referencial teórico")
-[
-  [ "2.2 Inteligência artificial e formação docente", "A inserção da inteligência artificial no ensino superior amplia o debate", "Ampliar o conceito de formação docente", "open" ],
-  [ "Conexão entre parágrafos", "Nesse cenário, a formação continuada assume papel central", "Explique como esse argumento se relaciona com o parágrafo anterior.", "resolved" ],
-  [ "Recorte do estudo", "Estudos recentes apontam que ferramentas generativas", "Indique quais estudos sustentam esta afirmação e delimite o período analisado.", "resolved" ],
-  [ "Definição de IA generativa", "ferramentas generativas podem apoiar o planejamento", "Boa definição. Manter a distinção entre ferramenta e prática pedagógica.", "resolved" ],
-  [ "Síntese da seção", "A literatura também destaca a importância", "A síntese está clara; retomar os objetivos no fechamento do capítulo.", "resolved" ],
-  [ "Coesão textual", "Nesse cenário, a formação continuada", "A transição entre as ideias está bem encaminhada.", "resolved" ],
-  [ "Vocabulário acadêmico", "ferramentas generativas podem apoiar", "Evite generalizações; indique em quais condições esse apoio foi observado.", "resolved" ],
-  [ "Articulação com a pesquisa", "a formação continuada assume papel central", "Relacione esse argumento ao contexto dos docentes participantes.", "resolved" ],
-  [ "Organização da seção", "A literatura também destaca", "A sequência dos parágrafos está clara.", "resolved" ],
-  [ "Citação e autoria", "Estudos recentes apontam", "Confira se a citação correspondente aparece na lista de referências.", "resolved" ],
-  [ "Síntese crítica", "Mais do que definir ferramentas", "Boa síntese. Acrescente uma frase que conecte ao problema da pesquisa.", "resolved" ],
-  [ "Revisão final", "práticas institucionais que promovam", "Revisado na versão anterior.", "resolved" ]
-].each do |section, anchor, content, status|
-  comment = referential.review_comments.find_or_initialize_by(section: section, anchor_text: anchor)
-  comment.assign_attributes(content: content, author_name: "Profa. #{professor.name}", status: status)
-  comment.save!
-end
-
-abnt_items = [
-  [ "Estrutura do trabalho", "Elementos pré-textuais completos", "verified" ],
-  [ "Estrutura do trabalho", "Capa e folha de rosto", "verified" ],
-  [ "Estrutura do trabalho", "Resumo e palavras-chave", "verified" ],
-  [ "Estrutura do trabalho", "Sumário corresponde aos títulos", "verified" ],
-  [ "Formatação", "Margens do documento", "verified" ],
-  [ "Formatação", "Fonte e tamanho do corpo do texto", "verified" ],
-  [ "Formatação", "Espaçamento entre linhas", "verified" ],
-  [ "Formatação", "Recuo de primeira linha", "verified" ],
-  [ "Formatação", "Numeração progressiva das seções", "verified" ],
-  [ "Formatação", "Paginação a partir da introdução", "verified" ],
-  [ "Citações", "Citações diretas curtas", "verified" ],
-  [ "Citações", "Citações diretas longas", "verified" ],
-  [ "Citações", "Citações indiretas", "verified" ],
-  [ "Citações", "Sistema autor-data consistente", "verified" ],
-  [ "Referências", "Ordem alfabética", "verified" ],
-  [ "Referências", "Alinhamento e espaçamento", "verified" ],
-  [ "Referências", "Conferir DOI e endereço eletrônico", "suggestion" ],
-  [ "Referências", "Padronizar destaque de títulos", "suggestion" ],
-  [ "Citações", "Citação longa sem destaque de recuo", "suggestion" ],
-  [ "Formatação", "Verificar títulos órfãos no fim da página", "suggestion" ],
-  [ "Estrutura do trabalho", "Conferir lista de abreviaturas", "suggestion" ],
-  [ "Referências", "Conferência manual de autoria institucional", "manual_review" ],
-  [ "Citações", "Confirmar correspondência entre citação e referência", "manual_review" ],
-  [ "Formatação", "Conferência visual das tabelas e figuras", "manual_review" ]
-]
-
-abnt_items.each_with_index do |(category, title, status), index|
-  check = referential.abnt_checks.find_or_initialize_by(code: "ABNT-%02d" % (index + 1))
-  check.assign_attributes(
-    category: category,
-    title: title,
-    status: status,
-    severity: status == "manual_review" ? "manual" : (status == "suggestion" ? "attention" : "ok"),
-    excerpt: status == "suggestion" ? "Trecho identificado na versão 3 do capítulo." : nil,
-    recommendation: status == "suggestion" ? "Revise este ponto no documento e confirme conforme as normas adotadas pelo programa." : nil,
-    checked_at: status == "verified" ? Time.current - 1.day : nil
-  )
-  check.save!
-end
-
-[
-  [ "Dossiê · IA na formação docente", "Periódico", "Revista Educação & Tecnologia", 76, 28.days.from_now.to_date, "Chamada temática sobre práticas, formação e tecnologias emergentes no ensino superior.", "O tema dialoga diretamente com o recorte sobre IA generativa e formação docente." ],
-  [ "Congresso de Educação e Tecnologias", "Congresso", "Rede Educação Digital", 88, 42.days.from_now.to_date, "Submissões abertas para trabalhos completos e relatos de pesquisa em andamento.", "Prazo adequado para submeter um recorte do capítulo teórico como trabalho em andamento." ],
-  [ "Seminário de Pesquisa em Formação Docente", "Evento", "PPG Educação · Encontro anual", 69, 60.days.from_now.to_date, "Encontro para compartilhar pesquisas de mestrado e doutorado em andamento.", "Pode ser uma boa oportunidade para receber comentários antes da qualificação." ]
-].each do |title, item_type, organization, relevance, event_on, description, reason|
-  opportunity = marina.opportunity_recommendations.find_or_initialize_by(title: title)
-  opportunity.assign_attributes(item_type: item_type, organization: organization, subject: "Educação e tecnologias", relevance: relevance, event_on: event_on, deadline_on: event_on - 10.days, description: description, reason: reason, status: "recommended")
-  opportunity.save!
-end
-
-puts "OrientaAI pronto: conta estudante marina.costa@orienta.demo / pesquisa2026; API docente cynara@produc.demo / produc2026."
+puts "OrientaAI pronto. Professora: helena@orienta.demo; aluna: marina@orienta.demo; formação: nova.aluna@orienta.demo. Senha demonstrativa: pesquisa2026."

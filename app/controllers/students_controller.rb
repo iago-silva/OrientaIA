@@ -3,7 +3,10 @@ class StudentsController < ApplicationController
   before_action :set_student, only: %i[show edit update destroy]
 
   def index
-    @students = current_professor.students.order(active: :desc, name: :asc)
+    @active_count = current_professor.students.where(active: true).count
+    @archived_count = current_professor.students.where(active: false).count
+    @students = current_professor.students.where(active: params[:archived] != "1").order(name: :asc)
+    @selected_student = @students.find_by(id: params[:student]) || @students.first
   end
 
   def show
@@ -46,6 +49,6 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    params.require(:student).permit(:name, :email, :program, :research_area, :project_title, :research_problem, :objectives, :methodology, :active, :progress)
+    params.require(:student).permit(:name, :email, :program, :research_area, :project_title, :research_problem, :objectives, :methodology, :active, :progress, :password, :password_confirmation)
   end
 end

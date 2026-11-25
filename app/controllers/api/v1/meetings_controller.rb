@@ -31,7 +31,7 @@ module Api
       end
 
       def meeting_params
-        params.require(:meeting).permit(:held_at, :title, :transcript, :summary, :next_steps, :external_id)
+        params.require(:meeting).permit(:held_at, :title, :transcript, :summary, :next_steps, :external_id, :audio_file)
       end
     end
   end

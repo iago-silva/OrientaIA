@@ -1,17 +1,2 @@
-<% content_for :title, "Cadastro · PRODUC" %>
-<div class="produc-auth-page produc-signup-page">
-  <section class="produc-auth-card" aria-labelledby="signup-heading">
-    <%= link_to login_path, class: "produc-brand auth-brand" do %><%= portal_icon(:robot, class: "produc-mascot") %><span>PRODUC</span><% end %>
-    <h1 id="signup-heading">Bem-vindo!<br><span>Faça seu cadastro de professor.</span></h1>
-    <%= form_with model: @professor, url: signup_path, class: "form-stack" do |form| %>
-      <% if @professor.errors.any? %><div class="form-errors" role="alert"><%= @professor.errors.full_messages.to_sentence %></div><% end %>
-      <div class="field"><%= form.label :name, "Nome completo *" %><%= form.text_field :name, placeholder: "Seu nome", autocomplete: "name", required: true %></div>
-      <div class="field"><%= form.label :email, "E-mail *" %><%= form.email_field :email, placeholder: "E-mail", autocomplete: "email", required: true %></div>
-      <div class="field"><%= form.label :institution, "Instituição" %><%= form.text_field :institution, placeholder: "Universidade ou programa", autocomplete: "organization" %></div>
-      <div class="field"><%= form.label :password, "Senha *" %><%= form.password_field :password, placeholder: "Mínimo de 8 caracteres", autocomplete: "new-password", minlength: 8, required: true %></div>
-      <div class="field"><%= form.label :password_confirmation, "Confirmar senha *" %><%= form.password_field :password_confirmation, placeholder: "Confirme sua senha", autocomplete: "new-password", required: true %></div>
-      <%= form.submit "Registrar-se", class: "button auth-submit full" %>
-    <% end %>
-    <p class="auth-switch">Já tem uma conta? <%= link_to "Faça o login", login_path %></p>
-  </section>
-</div>
+<% content_for :title, "Cadastro · OrientaAI" %>
+<section class="auth-card signup-card"><%= link_to login_path, class: "brand" do %><%= portal_logo %>OrientaAI<% end %><h2>Seu espaço de orientação.</h2><p class="muted small">Crie seu cadastro de professor. Seus orientandos serão vinculados ao seu espaço.</p><%= form_with model: @professor, url: signup_path do |f| %><% if @professor.errors.any? %><div class="form-errors" role="alert"><%= @professor.errors.full_messages.to_sentence %></div><% end %><div class="field"><%= f.label :name, "Nome completo" %><%= f.text_field :name, required: true, autocomplete: "name" %></div><div class="field"><%= f.label :email, "E-mail" %><%= f.email_field :email, required: true, autocomplete: "email" %></div><div class="field"><%= f.label :institution, "Instituição" %><%= f.text_field :institution, autocomplete: "organization" %></div><div class="field"><%= f.label :password, "Senha" %><%= f.password_field :password, minlength: 8, required: true, autocomplete: "new-password" %></div><div class="field"><%= f.label :password_confirmation, "Confirmar senha" %><%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %></div><%= f.submit "Criar meu espaço", class: "button" %><% end %><p class="auth-switch">Já tem conta? <%= link_to "Entre aqui", login_path %></p></section>

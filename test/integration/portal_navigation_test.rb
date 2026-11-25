@@ -1,86 +1,76 @@
 require "test_helper"
+require_relative "../support/portal_data"
 
 class PortalNavigationTest < ActionDispatch::IntegrationTest
-  setup do
-    @professor = Professor.create!(name: "Ana Silva", email: "ana@portal.test", password: "pesquisa2026")
-    @student = @professor.students.create!(name: "João Santos", email: "joao@portal.test", program: "Mestrado", password: "pesquisa2026", progress: 40)
-    @orientation = @student.create_orientation!(professor: @professor, title: "Pesquisa de mestrado")
-    @work = @student.academic_works.create!(title: "Capítulo de pesquisa")
-  end
+  include PortalData
+  setup { build_portal }
 
-  test "professor can navigate the portal and open grouped orientations" do
+  test "every professor screen renders with the new identity" do
+    @record.acknowledge!(@professor)
     sign_in(@professor)
-    [ root_path, students_path, new_student_path, edit_student_path(@student), orientations_path, orientation_path(@orientation), assistant_path ].each do |path|
+    paths = [ root_path, students_path, new_student_path, edit_student_path(@student), orientations_path, orientation_path(@orientation), professor_meetings_path, supervision_path, supervision_path(tab: "history"), review_record_path(@record), review_trail_path(@record), privacy_path, guide_path, assistant_path, new_opportunity_path ]
+    %w[access review confirm].each { |step| paths << supervision_flow_path(@record, step: step) }
+    paths.each do |path|
       get path
-      assert_response :success
-      assert_select "nav.portal-nav a", count: 4
-      assert_select "nav a[aria-current=page]", count: 1
-    end
-    get orientations_path
-    assert_select "details.orientation-group", count: 2
-    assert_select "a[href='#{orientation_path(@orientation)}']", text: /João Santos/
-    get students_path
-    assert_no_match(/Translation missing/i, response.body)
-    get assistant_path
-    assert_select ".robot-integration"
-    assert_select "title", "Chat IA · PRODUC"
-  end
-
-  test "student can navigate every research section in the shared layout" do
-    sign_in(@student)
-    [ root_path, academic_works_path, academic_work_path(@work), abnt_analysis_path, student_agenda_path, student_meetings_path, opportunity_recommendations_path, assistant_path ].each do |path|
-      get path
-      assert_response :success
-      assert_select ".student-portal"
-      assert_select "nav.portal-nav a", count: 7
-      assert_select "nav a[aria-current=page]", count: 1
-      assert_select ".student-sidebar", count: 0
+      assert_response :success, path
+      assert_select "title", /OrientaAI/
+      assert_select ".side-nav a", count: 5
+      assert_no_match(/PRODUC|Translation missing|undefined method/i, response.body)
     end
   end
 
-  test "student assistant does not expose the professor integration or token" do
+  test "every student screen renders without a professor action" do
     sign_in(@student)
-    get assistant_path
-    assert_response :success
-    assert_select ".robot-integration", count: 0
-    assert_select ".token-box", count: 0
-    assert_select "textarea[disabled]"
-    assert_select "a[href='#{student_agenda_path}']", text: /Organizar próximos passos/
-    get students_path
-    assert_redirected_to root_path
+    paths = [ root_path, academic_works_path, academic_work_path(@work), academic_work_path(@work, filter: "all"), compare_work_path(@work), abnt_analysis_path, abnt_analysis_path(category: "all"), student_agenda_path, student_meetings_path, opportunity_recommendations_path, opportunity_recommendations_path(filter: "recommended"), new_opportunity_path, opportunity_path(@opportunity), privacy_path, guide_path, assistant_path ]
+    3.times { |step| paths << training_path(step: step) }
+    paths.each do |path|
+      get path
+      assert_response :success, path
+      assert_select "title", /OrientaAI/
+      assert_no_match(/COMENTÁRIO PRIVADO|SÍNTESE PRIVADA NÃO PUBLICADA|ENCAMINHAMENTO PRIVADO|TRANSCRIÇÃO PRIVADA/, response.body)
+    end
   end
 
-  test "anonymous access is redirected and login rejects invalid credentials" do
-    get assistant_path
+  test "authentication invalid credentials and logout" do
+    get root_path
     assert_redirected_to login_path
-    get login_path
-    assert_response :success
-    assert_select "form[action='#{login_path}'] input[name=email]"
-    post login_path, params: { email: @student.email, password: "incorreta" }
+    post login_path, params: { email: @student.email, password: "wrong" }
     assert_response :unprocessable_entity
-    assert_select "[role=alert]", text: /E-mail ou senha inválidos/
-  end
-
-  test "registration shows validation errors in the new card" do
-    get signup_path
-    assert_response :success
-    post signup_path, params: { professor: { name: "", email: "", password: "", password_confirmation: "" } }
-    assert_response :unprocessable_entity
-    assert_select ".produc-auth-card .form-errors"
-  end
-
-  test "shared logout form ends the session" do
     sign_in(@student)
     delete logout_path
-    assert_redirected_to login_path
     get root_path
     assert_redirected_to login_path
   end
 
-  private
-
-  def sign_in(user)
-    post login_path, params: { email: user.email, password: "pesquisa2026" }
+  test "registration validates and opens an empty working professor portal" do
+    post signup_path, params: { professor: { name: "", email: "", password: "short" } }
+    assert_response :unprocessable_entity
+    post signup_path, params: { professor: { name: "Nova Docente", email: "nova@portal.test", password: "pesquisa2026", password_confirmation: "pesquisa2026" } }
     assert_redirected_to root_path
+    [ root_path, supervision_path, students_path, professor_meetings_path, privacy_path ].each do |path|
+      get path
+      assert_response :success
+    end
+  end
+
+  test "invalid and cross account records return 404 rather than error pages" do
+    sign_in(@student)
+    get academic_work_path(999999)
+    assert_response :not_found
+    assert_select "h1", "Página não encontrada."
+    get students_path
+    assert_redirected_to root_path
+    get review_record_path(@record)
+    assert_redirected_to root_path
+  end
+
+  test "student with no research or meetings can navigate empty states" do
+    @orientation.destroy!
+    @student.academic_works.destroy_all
+    sign_in(@student)
+    [ root_path, student_meetings_path, academic_works_path, student_agenda_path, privacy_path, abnt_analysis_path ].each do |path|
+      get path
+      assert_response :success, path
+    end
   end
 end

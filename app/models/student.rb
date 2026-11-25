@@ -14,4 +14,10 @@ class Student < ApplicationRecord
   validates :email, uniqueness: { scope: :professor_id }
   validates :program, inclusion: { in: PROGRAMS }
   validates :progress, numericality: { only_integer: true, in: 0..100 }
+  validates :password, length: { minimum: 8 }, if: -> { password.present? }
+  validates :password, confirmation: true, if: -> { password.present? }
+
+  def trained?
+    training_completed_at.present?
+  end
 end

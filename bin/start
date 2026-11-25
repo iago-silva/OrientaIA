@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require "rbconfig"
+
+abort "Falha ao preparar o banco" unless system(RbConfig.ruby, "bin/rails", "db:prepare")
+abort "Falha ao preparar a demonstração" unless system(RbConfig.ruby, "bin/rails", "db:seed")
+exec RbConfig.ruby, "bin/rails", "server", "-b", "0.0.0.0", "-p", ENV.fetch("PORT", "3000")

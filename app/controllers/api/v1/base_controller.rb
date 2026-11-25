@@ -16,7 +16,7 @@ module Api
         elsif supplied.blank? || !ActiveSupport::SecurityUtils.secure_compare(supplied, expected)
           render json: { error: "unauthorized", message: "Use Authorization: Bearer <token>." }, status: :unauthorized
         else
-          @professor = Professor.order(:id).first
+          @professor = Professor.find_by(email: ENV.fetch("ROBOT_PROFESSOR_EMAIL", "helena@orienta.demo"))
           render json: { error: "demo_professor_not_configured" }, status: :service_unavailable unless @professor
         end
       end

@@ -13,6 +13,6 @@ class MeetingsController < ApplicationController
   private
 
   def meeting_params
-    params.require(:meeting).permit(:held_at, :title, :transcript, :summary, :next_steps)
+    params.require(:meeting).permit(:held_at, :title, :transcript, :summary, :next_steps, :audio_file)
   end
 end

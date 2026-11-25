@@ -2,36 +2,20 @@ class WorkVersionsController < ApplicationController
   before_action :require_student!
 
   def create
-    @work = current_student.academic_works.find(params[:academic_work_id])
-    if params.dig(:work_version, :file).blank?
-      return redirect_to academic_work_path(@work), alert: "Selecione o arquivo da nova versão."
+    work = current_student.academic_works.find(params[:academic_work_id])
+    permitted = params.require(:work_version).permit(:file, :change_note, :sensitivity, :processing_destination)
+    return redirect_to academic_works_path(work: work.id), alert: "Selecione um arquivo PDF ou DOCX de até 25 MB." if permitted[:file].blank?
+    if permitted[:processing_destination] == "external"
+      return redirect_to academic_works_path(work: work.id), alert: "Envio externo indisponível. Preserve o rascunho com destino local."
     end
-
-    upload = params.dig(:work_version, :file)
-    allowed_types = %w[application/pdf application/msword application/vnd.openxmlformats-officedocument.wordprocessingml.document]
-    if upload.size > 20.megabytes || !allowed_types.include?(upload.content_type)
-      return redirect_to academic_work_path(@work), alert: "Envie um PDF ou Word de até 20 MB."
+    work.with_lock do
+      version = work.work_versions.new(permitted.merge(version_number: work.work_versions.maximum(:version_number).to_i + 1, label: "Rascunho de envio", status: "received", uploaded_by: "student"))
+      if version.save
+        work.update!(current_version: version.version_number, status: "draft")
+        redirect_to academic_works_path(work: work.id), notice: "Rascunho salvo. Nenhuma análise ou transmissão externa foi iniciada. As versões anteriores foram preservadas."
+      else
+        redirect_to academic_works_path(work: work.id), alert: version.errors.full_messages.to_sentence
+      end
     end
-
-    @version = @work.work_versions.new(version_params.merge(
-      version_number: @work.work_versions.maximum(:version_number).to_i + 1,
-      uploaded_by: "student",
-      status: "received",
-      label: "Nova revisão"
-    ))
-
-    if @version.save
-      @version.file.attach(params[:work_version][:file]) if params.dig(:work_version, :file).present?
-      @work.update!(current_version: @version.version_number, status: "submitted", submitted_at: Time.current)
-      redirect_to academic_work_path(@work), notice: "Nova versão enviada para revisão."
-    else
-      redirect_to academic_work_path(@work), alert: @version.errors.full_messages.to_sentence
-    end
-  end
-
-  private
-
-  def version_params
-    params.require(:work_version).permit(:change_note)
   end
 end

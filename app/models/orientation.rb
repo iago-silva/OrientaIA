@@ -6,6 +6,10 @@ class Orientation < ApplicationRecord
   has_many :meetings, -> { order(held_at: :desc) }, dependent: :destroy
   has_many :tasks, -> { order(due_on: :asc, created_at: :desc) }, dependent: :destroy
   has_many :feedbacks, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :review_records, dependent: :destroy
+  has_many :consents, dependent: :destroy
+  has_many :processing_requests, dependent: :destroy
+  has_many :orientation_messages, dependent: :destroy
 
   validates :title, :status, presence: true
   validates :status, inclusion: { in: STATUSES }

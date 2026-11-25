@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Ruby 3.4.3 has no prebuilt binary for Ubuntu 26.04; keep the runner compatible with .ruby-version.
+  # Pin the runner and use the security-patched Ruby release in .ruby-version.
   scan_ruby:
     runs-on: ubuntu-24.04
 

@@ -2,11 +2,15 @@ class AbntAnalysesController < ApplicationController
   before_action :require_student!
 
   def show
-    @work = current_student.academic_works.includes(:abnt_checks, :work_versions).find_by(category: "Capítulo 2") || current_student.academic_works.first
-    @checks = @work ? @work.abnt_checks : AbntCheck.none
-    @verified_count = @checks.where(status: "verified").count
-    @suggestion_count = @checks.where(status: "suggestion").count
-    @manual_count = @checks.where(status: "manual_review").count
-    @selected_check = @checks.find_by(id: params[:check]) || @checks.where(status: "suggestion").first
+    @checks = AbntCheck.joins(:academic_work).where(academic_works: { student_id: current_student.id })
+    category = params[:category].presence || "Citações"
+    @filtered = category == "all" ? @checks : @checks.where(category: category)
+    @findings = @filtered.where(status: %w[suggestion manual_review]).order(:code)
+  end
+
+  def export
+    checks = AbntCheck.joins(:academic_work).where(academic_works: { student_id: current_student.id })
+    text = [ "OrientaAI — Verificação ABNT assistida", "Apoio à conferência humana; não é certificação de conformidade.", *checks.map { |c| "#{c.code} · #{c.title}\n#{c.recommendation}\nConferência humana: #{c.human_checked_at ? 'registrada' : 'pendente'}" } ].join("\n\n")
+    send_data text, filename: "relatorio-abnt.txt", type: "text/plain; charset=utf-8"
   end
 end

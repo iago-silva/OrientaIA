@@ -14,6 +14,6 @@ class AcademicWork < ApplicationRecord
   end
 
   def open_comments_count
-    review_comments.where(status: "open").count
+    review_comments.where(status: "open").where.not(published_at: nil).count
   end
 end

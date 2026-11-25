@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_professor, :current_student, :current_user
 
   before_action :require_user!
+  before_action :require_training!
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   private
 
@@ -39,5 +41,15 @@ class ApplicationController < ActionController::Base
     return if current_student
 
     redirect_to root_path, alert: "Entre como estudante para acessar este espaço."
+  end
+
+  def require_training!
+    return unless current_student && !current_student.trained?
+    return if %w[training sessions privacy guides].include?(controller_name)
+    redirect_to training_path, alert: "Conclua sua formação inicial para acessar seu espaço de pesquisa."
+  end
+
+  def record_not_found
+    render "shared/not_found", status: :not_found
   end
 end

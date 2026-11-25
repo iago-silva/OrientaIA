@@ -4,7 +4,13 @@ class ReviewCommentsController < ApplicationController
 
   def create
     @comment = @work.review_comments.new(comment_params.merge(author_name: current_student.name, status: "open"))
-    if @comment.save
+    saved = @comment.transaction do
+      if @comment.save
+        current_student.orientation&.orientation_messages&.create!(author_name: current_student.name, author_role: "student", content: "Dúvida sobre #{@work.title}: #{@comment.content}")
+        true
+      end
+    end
+    if saved
       redirect_to academic_work_path(@work), notice: "Comentário enviado à orientadora."
     else
       redirect_to academic_work_path(@work), alert: @comment.errors.full_messages.to_sentence
@@ -12,7 +18,7 @@ class ReviewCommentsController < ApplicationController
   end
 
   def update
-    comment = @work.review_comments.find(params[:id])
+    comment = @work.review_comments.where.not(published_at: nil).find(params[:id])
     if comment.update(status: "resolved")
       redirect_to academic_work_path(@work), notice: "Comentário marcado como revisado."
     else
